@@ -1,12 +1,33 @@
-#include <iostream>
 #include "Console.h"
-using namespace std;
+#include "Tree.h"
 
+#define TEST
+
+#ifdef TEST
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
-    Console::println("ahahah looool", COLORS::RED);
-    Console::println(false, COLORS::YELLOW);
-    Console::println(5+7, COLORS::GREEN);
+    
+    Tree<int> tree;
+
+    tree.insert(5, 5);
+    tree.insert(4, 4);
+    tree.insert(8, 8);
+    tree.insert(7, 7);
+    tree.insert(2, 3);
+    tree.insert(3, 2);
+    tree.insert(10, 10);
+
+    tree.print();
+
     return 0;
 }
+#else
+int main() {
+    Console::setSystem(SYSTEMS::LINUX);
+
+    Console::println("Lab 2");
+
+    return 0;
+}
+#endif
 

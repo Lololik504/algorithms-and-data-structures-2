@@ -1,10 +1,13 @@
 #ifndef LAB2_3_TREE_H
 #define LAB2_3_TREE_H
 
-#include <iostream>
+#include "Console.h"
+#include <stack>
+#include <cmath>
 
 template<class Key = int, class Data = int>
 class Tree {
+private:
     class Node {
     private:
         Key key;
@@ -13,7 +16,7 @@ class Tree {
         Node *right;
 
     public:
-        explicit Node(Key key = Key(rand()), Data data = Data(), Node *left = nullptr, Node *right = nullptr)
+        explicit Node(Key key, Data data = Data(), Node *left = nullptr, Node *right = nullptr)
                 : key(key), data(data), left(left), right(right) {};
 
         Key getKey() const;
@@ -33,6 +36,23 @@ class Tree {
         void setRight(Node *right);
     };
 
+    Node *root;
+    int size;
+
+    void print(Node *root, int lvl);
+
+public:
+    explicit Tree() : root(nullptr), size(0) {};
+
+    bool insert(Key key, Data data = Data()) ;
+
+    void traverse();
+
+    void print();
+
+    bool isEmpty();
+
+    int getSize();
 };
 
 // ################################################
@@ -82,5 +102,79 @@ void Tree<Key, Data>::Node::setRight(Tree::Node *right) {
 // ################################################
 //                      Tree
 // ################################################
+
+
+template<class Key, class Data>
+bool Tree<Key, Data>::insert(Key key, Data data) {
+    if (!this->root) {
+        this->root = new Node(key, data);
+    } else {
+        Node *node = this->root;
+        Node *nodeBefore = nullptr;
+        while (node) {
+            nodeBefore = node;
+            if (key < node->getKey()) {
+                node = node->getLeft();
+            } else if (key > node->getKey()) {
+                node = node->getRight();
+            } else {
+                return false;
+            }
+        }
+        node = new Node(key, data);
+        if (key < nodeBefore->getKey()) {
+            nodeBefore->setLeft(node);
+        } else {
+            nodeBefore->setRight(node);
+        }
+    }
+    this->size++;
+    return true;
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::traverse() {
+    stack<Node *> nodes;
+    nodes.push(this->root);
+    while (!nodes.empty()) {
+        Node *node = nodes.top();
+        nodes.pop();
+        if (node->getRight()) {
+            nodes.push(node->getRight());
+        }
+        Console::print(node->getKey());
+        Console::print(" ");
+        if (node->getLeft()) {
+            nodes.push(node->getLeft());
+        }
+    }
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::print() {
+    this->print(this->root, 0);
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::print(Tree<Key, Data>::Node *node, int lvl) {
+    if (node) {
+        this->print(node->getRight(), lvl + 1);
+        for (int i = 0; i < lvl; ++i) {
+            Console::print("    ");
+        }
+        Console::println(node->getKey(), static_cast<COLORS>(lvl % 8));
+        this->print(node->getLeft(), lvl + 1);
+    }
+}
+
+template<class Key, class Data>
+bool Tree<Key, Data>::isEmpty() {
+    return this->size == 0;
+}
+
+template<class Key, class Data>
+int Tree<Key, Data>::getSize() {
+    return this->size;
+}
 
 #endif //LAB2_3_TREE_H
