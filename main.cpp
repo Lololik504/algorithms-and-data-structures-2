@@ -15,9 +15,11 @@ int main() {
     tree.insert(7, 7);
     tree.insert(2, 3);
     tree.insert(3, 2);
-    tree.insert(10, 10);
+    tree.insert(10, 99);
 
     tree.print();
+
+    Console::println(tree.find(11));
 
     return 0;
 }

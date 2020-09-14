@@ -44,7 +44,9 @@ private:
 public:
     explicit Tree() : root(nullptr), size(0) {};
 
-    bool insert(Key key, Data data = Data()) ;
+    bool insert(Key key, Data data = Data());
+
+    Data find(Key key);
 
     void traverse();
 
@@ -175,6 +177,22 @@ bool Tree<Key, Data>::isEmpty() {
 template<class Key, class Data>
 int Tree<Key, Data>::getSize() {
     return this->size;
+}
+
+template<class Key, class Data>
+Data Tree<Key, Data>::find(Key key) {
+    Node *node = this->root;
+    while (node && key != node->getKey()) {
+        if (key < node->getKey()) {
+            node = node->getLeft();
+        } else {
+            node = node->getRight();
+        }
+    }
+    if (!node) {
+        throw invalid_argument("No key");
+    }
+    return node->getData();
 }
 
 #endif //LAB2_3_TREE_H
