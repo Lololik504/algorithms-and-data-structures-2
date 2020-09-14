@@ -44,9 +44,13 @@ private:
 public:
     explicit Tree() : root(nullptr), size(0) {};
 
+    ~Tree();
+
     bool insert(Key key, Data data = Data());
 
     Data find(Key key);
+
+    bool remove(Key key);
 
     void traverse();
 
@@ -55,6 +59,8 @@ public:
     bool isEmpty();
 
     int getSize();
+
+    void clear();
 };
 
 // ################################################
@@ -105,6 +111,29 @@ void Tree<Key, Data>::Node::setRight(Tree::Node *right) {
 //                      Tree
 // ################################################
 
+template<class Key, class Data>
+Tree<Key, Data>::~Tree() {
+    this->clear();
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::clear() {
+    // TODO: may be rewritten by recursive algo
+    stack<Node *> nodes;
+    nodes.push(this->root);
+    while (!nodes.empty()) {
+        Node *node = nodes.top();
+        nodes.pop();
+        if (node->getRight()) {
+            nodes.push(node->getRight());
+        }
+        Node *left = node->getLeft();
+        delete node;
+        if (left) {
+            nodes.push(left);
+        }
+    }
+}
 
 template<class Key, class Data>
 bool Tree<Key, Data>::insert(Key key, Data data) {
@@ -193,6 +222,54 @@ Data Tree<Key, Data>::find(Key key) {
         throw invalid_argument("No key");
     }
     return node->getData();
+}
+
+template<class Key, class Data>
+bool Tree<Key, Data>::remove(Key key) {
+    // TODO: shit algo... rewrite! It's from mEtOdI4kA
+    Node *node = this->root;
+    Node *nodeBefore, *x, *y;
+    while (node && node->getKey() != key) {
+        nodeBefore = node;
+        if (key < node->getKey()) {
+            node = node->getLeft();
+        } else {
+            node = node->getRight();
+        }
+    }
+    if (!node) {
+        return false;
+    }
+    nodeBefore = nullptr;
+    if (!node->getLeft() && !node->getRight()) {
+        x = nullptr;
+    } else if (!node->getLeft()) {
+        x = node->getRight();
+    } else if (!node->getRight()) {
+        x = node->getLeft();
+    } else {
+        nodeBefore = node;
+        y = node->getRight();
+        while (y->getLeft()) {
+            nodeBefore = y;
+            y = y->getLeft();
+        }
+        node->setKey(y->getKey());
+        node->setData(y->getData());
+        x = y->getRight();
+        node = y;
+    }
+    if (!node) {
+        this->root = x;
+    } else {
+        if (node->getKey() < nodeBefore->getKey()) {
+            nodeBefore->setLeft(x);
+        } else {
+            node->setRight(x);
+        }
+    }
+    delete node;
+    return true;
 }
 
 #endif //LAB2_3_TREE_H

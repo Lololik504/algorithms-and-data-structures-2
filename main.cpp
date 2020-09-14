@@ -19,8 +19,6 @@ int main() {
 
     tree.print();
 
-    Console::println(tree.find(11));
-
     return 0;
 }
 #else
