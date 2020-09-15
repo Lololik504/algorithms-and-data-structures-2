@@ -39,7 +39,7 @@ private:
     Node *root;
     int size;
 
-    void print(Node *root, int lvl);
+    void print(Node *node, int lvl);
 
 public:
     explicit Tree() : root(nullptr), size(0) {};
@@ -119,7 +119,7 @@ Tree<Key, Data>::~Tree() {
 template<class Key, class Data>
 void Tree<Key, Data>::clear() {
     // TODO: may be rewritten by recursive algo
-    stack<Node *> nodes;
+    stack < Node * > nodes;
     nodes.push(this->root);
     while (!nodes.empty()) {
         Node *node = nodes.top();
@@ -149,6 +149,7 @@ bool Tree<Key, Data>::insert(Key key, Data data) {
             } else if (key > node->getKey()) {
                 node = node->getRight();
             } else {
+                Console::error("Same key");
                 return false;
             }
         }
@@ -165,7 +166,7 @@ bool Tree<Key, Data>::insert(Key key, Data data) {
 
 template<class Key, class Data>
 void Tree<Key, Data>::traverse() {
-    stack<Node *> nodes;
+    stack < Node * > nodes;
     nodes.push(this->root);
     while (!nodes.empty()) {
         Node *node = nodes.top();
@@ -190,11 +191,15 @@ template<class Key, class Data>
 void Tree<Key, Data>::print(Tree<Key, Data>::Node *node, int lvl) {
     if (node) {
         this->print(node->getRight(), lvl + 1);
+
         for (int i = 0; i < lvl; ++i) {
-            Console::print("    ");
+            Console::print("  ");
         }
+        // TODO: rewrite without static 8
         Console::println(node->getKey(), static_cast<COLORS>(lvl % 8));
+
         this->print(node->getLeft(), lvl + 1);
+
     }
 }
 
@@ -219,6 +224,7 @@ Data Tree<Key, Data>::find(Key key) {
         }
     }
     if (!node) {
+        Console::error("No key");
         throw invalid_argument("No key");
     }
     return node->getData();
@@ -238,6 +244,7 @@ bool Tree<Key, Data>::remove(Key key) {
         }
     }
     if (!node) {
+        Console::error("No key");
         return false;
     }
     nodeBefore = nullptr;

@@ -28,13 +28,17 @@ class Console {
 private:
     static SYSTEMS SYSTEM;
 
+    static bool LOGGING;
+
     static void SET_COLOR(COLORS color = COLORS::DEFAULT);
 
-    static const char * PARSE_COLOR(COLORS color = COLORS::DEFAULT);
+    static const char *PARSE_COLOR(COLORS color = COLORS::DEFAULT);
 
 public:
 
     static void setSystem(SYSTEMS system = SYSTEMS::WINDOWS);
+
+    static void setLogging(bool logging = true);
 
     static void clear();
 
@@ -53,6 +57,14 @@ public:
     static void print(const char *str, COLORS color = COLORS::DEFAULT);
 
     static void println(const char *str, COLORS color = COLORS::DEFAULT);
+
+    static void info(const char *str);
+
+    static void debug(const char *str);
+
+    static void warning(const char *str);
+
+    static void error(const char *str);
 };
 
 #endif //LAB2_3_CONSOLE_H

@@ -6,8 +6,12 @@
 #ifdef TEST
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
+
+    Console::setLogging();
+
+    Console::info("start program");
     
-    Tree<int> tree;
+    Tree<double> tree;
 
     tree.insert(5, 5);
     tree.insert(4, 4);
@@ -16,9 +20,14 @@ int main() {
     tree.insert(2, 3);
     tree.insert(3, 2);
     tree.insert(10, 99);
+    tree.insert(7.5, 99);
+    tree.insert(7.5, 99);
 
     tree.print();
 
+    Console::debug("Tree was printed");
+
+    Console::info("end program");
     return 0;
 }
 #else

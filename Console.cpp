@@ -2,6 +2,8 @@
 
 SYSTEMS Console::SYSTEM = SYSTEMS::WINDOWS;
 
+bool Console::LOGGING = false;
+
 void Console::SET_COLOR(COLORS color) {
     // TODO: find color-code for YELLOW, CYAN, MAGNETA and WHITE
     switch (color) {
@@ -41,11 +43,17 @@ const char *Console::PARSE_COLOR(COLORS color) {
             return "\e[1;36m";
         case COLORS::WHITE:
             return "\e[1;37m";
+        default:
+            return "";
     };
 }
 
 void Console::setSystem(SYSTEMS system) {
     Console::SYSTEM = system;
+}
+
+void Console::setLogging(bool logging) {
+    Console::LOGGING = logging;
 }
 
 void Console::clear() {
@@ -182,6 +190,82 @@ void Console::println(double str, COLORS color) {
             break;
         case SYSTEMS::MAC:
             cout << Console::PARSE_COLOR(color) << str << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
+void Console::info(const char *str) {
+    if (!Console::LOGGING) {
+        return;
+    }
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(COLORS::CYAN);
+            cout << "[INFO]: " << str << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(COLORS::CYAN) << "[INFO]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(COLORS::CYAN) << "[INFO]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
+void Console::debug(const char *str) {
+    if (!Console::LOGGING) {
+        return;
+    }
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(COLORS::GREEN);
+            cout << "[DEBUG]: " << str << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(COLORS::GREEN) << "[DEBUG]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(COLORS::GREEN) << "[DEBUG]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
+void Console::warning(const char *str) {
+    if (!Console::LOGGING) {
+        return;
+    }
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(COLORS::YELLOW);
+            cout << "[WARNING]: " << str << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(COLORS::YELLOW) << "[WARNING]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(COLORS::YELLOW) << "[WARNING]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
+void Console::error(const char *str) {
+    if (!Console::LOGGING) {
+        return;
+    }
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(COLORS::RED);
+            cout << "[ERROR]: " << str << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(COLORS::RED) << "[ERROR]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(COLORS::RED) << "[ERROR]: " << str << Console::PARSE_COLOR() << endl;
             break;
     }
 }
