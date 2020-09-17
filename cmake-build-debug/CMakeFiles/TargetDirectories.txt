@@ -1,3 +1,0 @@
-C:/Users/Matvey/Desktop/ADS/lab2/cmake-build-debug/CMakeFiles/lab2_3.dir
-C:/Users/Matvey/Desktop/ADS/lab2/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Matvey/Desktop/ADS/lab2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

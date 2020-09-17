@@ -50,9 +50,9 @@ public:
 
     Node *min(Node *node);
 
-    Node *biggerParrent(Node *root, Node *target);
+    Node *biggerParent(Node *current, Node *target);
 
-    Node *lessParrent(Node *root, Node *target);
+    Node *lessParent(Node *current, Node *target);
 
     Node *getPrev(Node *target);
 
@@ -512,28 +512,28 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::max(Tree::Node *node) {
 }
 
 template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::biggerParrent(Tree::Node *root, Tree::Node *target) {
-    if (root == target) return nullptr;
-    if (target->getKey() > root->getKey()) {
-        Node *returnNode = biggerParrent(root->getRight(), target);
-        if (returnNode != nullptr)
-            return returnNode;
-        else return target;
+typename Tree<Key, Data>::Node *Tree<Key, Data>::biggerParent(Node *current, Node *target) {
+    if (current == target) return nullptr;
+    if (target->getKey() > current->getKey()) {
+        Node *returnNode = biggerParent(current->getRight(), target);
+        if (returnNode == nullptr)
+            return current;
+        else return returnNode;
     } else {
-        return biggerParrent(root->getLeft(), target);
+        return biggerParent(current->getLeft(), target);
     }
 }
 
 template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::lessParrent(Tree::Node *root, Tree::Node *target) {
-    if (root == target) return nullptr;
-    if (target->getKey() > root->getKey()) {
-        Node *returnNode = lessParrent(root->getRight(), target);
-        if (returnNode != nullptr)
-            return returnNode;
-        else return target;
+typename Tree<Key, Data>::Node *Tree<Key, Data>::lessParent(Node *current, Node *target) {
+    if (current == target) return nullptr;
+    if (target->getKey() < current->getKey()) {
+        Node *returnNode = lessParent(current->getLeft(), target);
+        if (returnNode == nullptr)
+            return current;
+        else return returnNode;
     } else {
-        return lessParrent(root->getLeft(), target);
+        return lessParent(current->getRight(), target);
     }
 }
 
@@ -542,10 +542,10 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getPrev(Tree::Node *target) {
     if (this->isEmpty() || target == nullptr) {
         throw runtime_error("EXCEPTION");
     }
-    if (this->node->getLeft() != nullptr) {
-        return this->tree->max(target->getLeft());
+    if (target->getLeft() != nullptr) {
+        return this->max(target->getLeft());
     } else {
-        return biggerParrent(root, target);
+        return biggerParent(root, target);
     }
 }
 
@@ -557,7 +557,7 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getNext(Tree::Node *target) {
     if (target->getRight() != nullptr) {
         return this->min(target->getRight());
     } else {
-        return lessParrent(root, target);
+        return lessParent(root, target);
     }
 }
 

@@ -27,12 +27,15 @@ int main() {
     Tree<>::Iterator it = tree.begin();
 
     tree.print();
-
+    it.print();
     for (int i = 0; i < 10; ++i) {
         it++;
         it.print();
     }
-
+    for (int i = 0; i < 10; ++i) {
+        it--;
+        it.print();
+    }
 
 
 
