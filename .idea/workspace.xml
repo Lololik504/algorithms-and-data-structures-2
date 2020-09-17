@@ -31,7 +31,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4b64a4bf-a05c-4518-b073-600253292f5e" name="Default Changelist" comment="Shit merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Console.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Console.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tree.h" beforeDir="false" afterPath="$PROJECT_DIR$/Tree.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
@@ -66,9 +65,9 @@
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="lab2_3" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lab2_3" TARGET_NAME="lab2_3" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="lab2_3" RUN_TARGET_NAME="lab2_3">
@@ -93,7 +92,8 @@
       <workItem from="1599896600084" duration="108000" />
       <workItem from="1599896712731" duration="200000" />
       <workItem from="1600072503110" duration="2310000" />
-      <workItem from="1600328674525" duration="9183000" />
+      <workItem from="1600328674525" duration="10414000" />
+      <workItem from="1600340017461" duration="3864000" />
     </task>
     <task id="LOCAL-00001" summary="Shit merge">
       <created>1600333565802</created>
@@ -133,38 +133,38 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="574" y="138" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1600072850823" />
-    <state width="1323" height="217" key="GridCell.Tab.0.bottom" timestamp="1600338320838">
+    <state width="1323" height="223" key="GridCell.Tab.0.bottom" timestamp="1600343913940">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="217" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1600338320838" />
-    <state width="1323" height="217" key="GridCell.Tab.0.center" timestamp="1600338320838">
+    <state width="1323" height="223" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1600343913940" />
+    <state width="1323" height="223" key="GridCell.Tab.0.center" timestamp="1600343913940">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="217" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1600338320838" />
-    <state width="1323" height="217" key="GridCell.Tab.0.left" timestamp="1600338320838">
+    <state width="1323" height="223" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1600343913940" />
+    <state width="1323" height="223" key="GridCell.Tab.0.left" timestamp="1600343913940">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="217" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1600338320838" />
-    <state width="1323" height="217" key="GridCell.Tab.0.right" timestamp="1600338320838">
+    <state width="1323" height="223" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1600343913940" />
+    <state width="1323" height="223" key="GridCell.Tab.0.right" timestamp="1600343913940">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="217" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1600338320838" />
-    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1600338209164">
+    <state width="1323" height="223" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1600343913940" />
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1600343913940">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1600338209164" />
-    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1600338209164">
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1600343913940" />
+    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1600343913940">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1600338209164" />
-    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1600338209164">
+    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1600343913940" />
+    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1600343913940">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1600338209164" />
-    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1600338209164">
+    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1600343913940" />
+    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1600343913940">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1600338209164" />
+    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1600343913940" />
     <state width="640" height="189" key="ImportCMakeProjectWizard.bottomPanel" timestamp="1599896706596">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -181,18 +181,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1600333571494" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1600337761771">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1600342239691">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1600337761771" />
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1600342239691" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1600342634688">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1600342634688" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>27</line>
-          <option name="timeStamp" value="4" />
+          <line>31</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
