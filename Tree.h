@@ -48,6 +48,8 @@ public:
 
     bool insert(Key key, Data data = Data());
 
+    Node *getParrent(Node *node);
+
     Data find(Key key);
 
     bool remove(Key key);
@@ -75,6 +77,8 @@ public:
         void setTree(Tree *tree);
 
         bool hasNode();
+
+        void print();
 
         Data getData();
 
@@ -141,10 +145,32 @@ bool Tree<Key, Data>::Iterator::operator++(int) {
     if (!this->hasNode()) {
         return false;
     }
-    if (node->getRight() == nullptr) {
-        return false;
+    //If we have right branch -> go to it and to end of left
+    //or up at root, while don't get an bigger key
+    if (this->node->getRight() != nullptr) {//if we have right branch
+        this->node = this->node->getRight();
+        while (this->node->getLeft() != nullptr) {
+            this->node = this->node->getLeft();
+        }
+        return true;
+    } else {//if we don't have right branch
+        if (this->getParrent()->getKey() > this->node->getKey()) {//if parent bigger then current
+            this->node = this->getParrent();
+            return true;
+        }
+        if (this->getParrent()->getKey() < this->node->getKey()) {//if parent less then current we do steps to root
+            Node *par = tree->getParrent(this->node);
+            while (par->getKey() < this->node->getKey()) {
+                par = tree->getParrent(par);
+                if (par == nullptr) {
+                    return false;
+                }
+            }
+            this->node = par;
+            return true;
+        }
     }
-    this->node = node->getRight();
+    return false;
 }
 
 template<class Key, class Data>
@@ -152,22 +178,35 @@ bool Tree<Key, Data>::Iterator::operator--(int) {
     if (!this->hasNode()) {
         return false;
     }
-    if (this->getParrent()->getKey() > this->node->getKey()) {
-        if (node->getLeft() == nullptr) {
-            Node *par = this->getParrent();
-            while (par->getKey() > this->node->getKey()) {
-                this->node = par;
-                par = this->getParrent();
-            }
-
+    //If parent key > currentKey -> We need to go at left branch
+    //or up at root, while don't get an less key
+    if (this->node->getLeft() != nullptr) {//if we have left branch
+        this->node = this->node->getLeft();
+        while (this->node->getRight() != nullptr) {
+            this->node = this->node->getRight();
         }
-        node = node->getLeft();
         return true;
-    } else {
-        node = this->getParrent();
-        return true;
+    } else {//if we don't have left branch
+        if (this->getParrent()->getKey() < this->node->getKey()) {//if parent less then current
+            this->node = this->getParrent();
+            return true;
+        }
+        if (this->getParrent()->getKey() > this->node->getKey()) {//if parent bigger then current we do steps to root
+            if (node->getLeft() == nullptr) {
+                Node *par = tree->getParrent(this->node);
+                while (par->getKey() > this->node->getKey()) {
+                    par = tree->getParrent(par);
+                    if (par == nullptr) {
+                        return false;
+                    }
+                }
+                this->node = par;
+            }
+        }
     }
+    return false;
 }
+
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::Iterator::operator*() {
@@ -207,24 +246,29 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::Iterator::getParrent() {
     }
     Node *next = nullptr;
     Node *current = this->tree->getRoot();
-    if (this->node->getKey > current->getKey()) {
+    if (this->node->getKey() > current->getKey()) {
         next = current->getRight();
     }
-    if (this->node->getKey < current->getKey()) {
+    if (this->node->getKey() < current->getKey()) {
         next = current->getLeft();
     }
     while (next != this->node) {
         current = next;
-        if (this->node->getKey > current->getKey()) {
+        if (this->node->getKey() > current->getKey()) {
             next = current->getRight();
             continue;
         }
-        if (this->node->getKey < current->getKey()) {
+        if (this->node->getKey() < current->getKey()) {
             next = current->getLeft();
             continue;
         }
     }
     return current;
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::Iterator::print() {
+    Console::print(this->node->getKey());
 }
 
 
@@ -445,7 +489,7 @@ bool Tree<Key, Data>::remove(Key key) {
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Iterator Tree<Key, Data>::begin() {
-    if (!this->isEmpty()) {
+    if (this->isEmpty()) {
         return Tree<Key, Data>::Iterator(this);
     }
     Node *node = root;
@@ -458,6 +502,36 @@ typename Tree<Key, Data>::Iterator Tree<Key, Data>::begin() {
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getRoot() const {
     return root;
+}
+
+template<class Key, class Data>
+typename Tree<Key, Data>::Node *Tree<Key, Data>::getParrent(Tree::Node *node) {
+    if (node == this->getRoot()) {
+        return nullptr;
+    }
+    if (node == nullptr) {
+        throw runtime_error("Iterator has no node!");
+    }
+    Node *next = nullptr;
+    Node *current = this->getRoot();
+    if (node->getKey() > current->getKey()) {
+        next = current->getRight();
+    }
+    if (node->getKey() < current->getKey()) {
+        next = current->getLeft();
+    }
+    while (next != node) {
+        current = next;
+        if (node->getKey() > current->getKey()) {
+            next = current->getRight();
+            continue;
+        }
+        if (node->getKey() < current->getKey()) {
+            next = current->getLeft();
+            continue;
+        }
+    }
+    return current;
 }
 
 #endif //LAB2_3_TREE_H

@@ -29,20 +29,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b64a4bf-a05c-4518-b073-600253292f5e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Console.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Console.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tree.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="4b64a4bf-a05c-4518-b073-600253292f5e" name="Default Changelist" comment="Shit merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Console.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Console.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tree.h" beforeDir="false" afterPath="$PROJECT_DIR$/Tree.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,8 +93,16 @@
       <workItem from="1599896600084" duration="108000" />
       <workItem from="1599896712731" duration="200000" />
       <workItem from="1600072503110" duration="2310000" />
-      <workItem from="1600328674525" duration="4526000" />
+      <workItem from="1600328674525" duration="9183000" />
     </task>
+    <task id="LOCAL-00001" summary="Shit merge">
+      <created>1600333565802</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600333565802</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -122,6 +120,10 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Shit merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Shit merge" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1600329821299">
       <screen x="0" y="0" width="1366" height="728" />
@@ -131,22 +133,38 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="574" y="138" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1600072850823" />
-    <state width="1323" height="217" key="GridCell.Tab.0.bottom" timestamp="1600329860273">
+    <state width="1323" height="217" key="GridCell.Tab.0.bottom" timestamp="1600338320838">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="217" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1600329860273" />
-    <state width="1323" height="217" key="GridCell.Tab.0.center" timestamp="1600329860273">
+    <state width="1323" height="217" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1600338320838" />
+    <state width="1323" height="217" key="GridCell.Tab.0.center" timestamp="1600338320838">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="217" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1600329860273" />
-    <state width="1323" height="217" key="GridCell.Tab.0.left" timestamp="1600329860273">
+    <state width="1323" height="217" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1600338320838" />
+    <state width="1323" height="217" key="GridCell.Tab.0.left" timestamp="1600338320838">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="217" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1600329860273" />
-    <state width="1323" height="217" key="GridCell.Tab.0.right" timestamp="1600329860273">
+    <state width="1323" height="217" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1600338320838" />
+    <state width="1323" height="217" key="GridCell.Tab.0.right" timestamp="1600338320838">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="217" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1600329860273" />
+    <state width="1323" height="217" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1600338320838" />
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1600338209164">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1600338209164" />
+    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1600338209164">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1600338209164" />
+    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1600338209164">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1600338209164" />
+    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1600338209164">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1600338209164" />
     <state width="640" height="189" key="ImportCMakeProjectWizard.bottomPanel" timestamp="1599896706596">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -159,9 +177,24 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="500" y="66" key="RollbackChangesDialog/0.0.1366.728@0.0.1366.728" timestamp="1600328785361" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1600333439933">
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1600333571494">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1600333439933" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1600333571494" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1600337761771">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1600337761771" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.cpp</url>
+          <line>27</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -143,7 +143,7 @@ void Console::print(int str, COLORS color) {
     switch (Console::SYSTEM) {
         case SYSTEMS::WINDOWS:
             Console::SET_COLOR(color);
-            puts(reinterpret_cast<const char *>(str));
+            cout << str << endl;
             Console::SET_COLOR();
             break;
         case SYSTEMS::LINUX:

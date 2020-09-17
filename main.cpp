@@ -5,9 +5,10 @@
 #define TEST
 
 #ifdef TEST
+
 int main() {
     Console::setSystem(SYSTEMS::WINDOWS);
-    
+
     Tree<int> tree;
 
     tree.insert(5, 5);
@@ -21,8 +22,20 @@ int main() {
 
     tree.print();
 
+    Tree<>::Iterator it = tree.begin();
+    for (int i = 0; i < 10; ++i) {
+        it.print();
+        Console::println(it++);
+    }
+    for (int i = 0; i < 10; ++i) {
+        it.print();
+        Console::println(it--);
+    }
+
+
     return 0;
 }
+
 #else
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
