@@ -130,17 +130,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lab2
+# Target rules for targets named lab2_3
 
 # Build rule for target.
-lab2: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lab2
-.PHONY : lab2
+lab2_3: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lab2_3
+.PHONY : lab2_3
 
 # fast build rule for target.
-lab2/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2.dir\build.make CMakeFiles/lab2.dir/build
-.PHONY : lab2/fast
+lab2_3/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2_3.dir\build.make CMakeFiles/lab2_3.dir/build
+.PHONY : lab2_3/fast
+
+Console.obj: Console.cpp.obj
+
+.PHONY : Console.obj
+
+# target to build an object file
+Console.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2_3.dir\build.make CMakeFiles/lab2_3.dir/Console.cpp.obj
+.PHONY : Console.cpp.obj
+
+Console.i: Console.cpp.i
+
+.PHONY : Console.i
+
+# target to preprocess a source file
+Console.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2_3.dir\build.make CMakeFiles/lab2_3.dir/Console.cpp.i
+.PHONY : Console.cpp.i
+
+Console.s: Console.cpp.s
+
+.PHONY : Console.s
+
+# target to generate assembly for a file
+Console.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2_3.dir\build.make CMakeFiles/lab2_3.dir/Console.cpp.s
+.PHONY : Console.cpp.s
 
 main.obj: main.cpp.obj
 
@@ -148,7 +175,7 @@ main.obj: main.cpp.obj
 
 # target to build an object file
 main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2.dir\build.make CMakeFiles/lab2.dir/main.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2_3.dir\build.make CMakeFiles/lab2_3.dir/main.cpp.obj
 .PHONY : main.cpp.obj
 
 main.i: main.cpp.i
@@ -157,7 +184,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2.dir\build.make CMakeFiles/lab2.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2_3.dir\build.make CMakeFiles/lab2_3.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -166,7 +193,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2.dir\build.make CMakeFiles/lab2.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lab2_3.dir\build.make CMakeFiles/lab2_3.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -177,7 +204,10 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... lab2
+	@echo ... lab2_3
+	@echo ... Console.obj
+	@echo ... Console.i
+	@echo ... Console.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
