@@ -43,7 +43,7 @@ public:
                     //TODO: setter function in tree
                     break;
                 case 6://включение данных с заданным ключом
-                    Console::println("Enter value");
+                    Console::println("Enter value: ");
                     cin >> number;
                     Console::println("Enter key: ");
                     cin >> action;
@@ -55,11 +55,14 @@ public:
                     tree.remove(action);
                     break;
                 case 8://формирование списка ключей в дереве в порядке
-                // обхода узлов по схеме, заданной в варианте задания,
+                    // обхода узлов по схеме, заданной в варианте задания,
                     //TODO: print tree like list Lt-T-Rt
                 case 9://дополнительная операция, заданная в варианте задания
                     //(длина внешнего пути)
                     //TODO: this task
+                    break;
+                case 10://Запрос прямого итератора, установленного на узел дерева с минимальным ключом begin()
+                    it = tree.begin();
                     break;
                 case 11:
                     break;
@@ -91,7 +94,7 @@ public:
         Console::println("7) Print like list");//формирование списка ключей в дереве в порядке
         // обхода узлов по схеме, заданной в варианте задания
         Console::println("8) Outside way length");//дополнительная операция, заданная в варианте задания
-                                                        //(длина внешнего пути)
+        //(длина внешнего пути)
         Console::println("9) get Iterator ");//запрос прямого итератора,
         // установленного на узел дерева с минимальным ключом begin(),
         Console::println("10) get rIterator");//запрос обратного итератора, установленного
@@ -123,8 +126,8 @@ public:
             Console::println("3) Get value");
             Console::println("4) Set value");
             Console::println("5) Drop tree");
-            Console::println("6) To head");
-            Console::println("7) To tail");
+            Console::println("6) To minimal key");
+            Console::println("7) To maximal key");
             cin >> action;
             switch (action) {
                 case 0:
@@ -139,7 +142,7 @@ public:
                     break;
                 case 2:
                     try {
-                        it->prev();
+                        it->operator--(1);
                     } catch (const exception &ex) {
                         Console::println("EXCEPTION");
                     }
@@ -162,18 +165,18 @@ public:
                     }
                     break;
                 case 5:
-                    it->setList();
+                    it->setTree(tree);
                     break;
                 case 6:
                     try {
-                        it->toHead();
+                        it->toMinimalKey();
                     } catch (const exception &ex) {
                         Console::println("EXCEPTION");
                     }
                     break;
                 case 7:
                     try {
-                        it->toTail();
+                        it->toMaximalKey();
                     } catch (const exception &ex) {
                         Console::println("EXCEPTION");
                     }
@@ -186,91 +189,91 @@ public:
         }
     }
 
-    static void riteratorMenu(Tree<> *tree, Tree<>::rIterator *it) {
-        bool flag = true;
-        int action = 0;
-        while (flag) {
-            Console::print("Has tree: ");
-            Console::println(it->hasList());
-            Console::print("Has node: ");
-            Console::println(it->hasNode());
-            Console::print("Current value: ");
-            try {
-                Console::println(it->getData());
-            } catch (const exception &ex) {
-                Console::println("EXCEPTION");
-            }
-            Console::println("----------------------------------");
-            tree->print();
-            Console::println("---------------MENU---------------");
-            Console::println("0) EXIT");
-            Console::println("1) Go to next");
-            Console::println("2) Go to prev");
-            Console::println("3) Get value");
-            Console::println("4) Set value");
-            Console::println("5) Drop tree");
-            Console::println("6) To head");
-            Console::println("7) To tail");
-            cin >> action;
-            switch (action) {
-                case 0:
-                    flag = false;
-                    break;
-                case 1:
-                    try {
-                        it->next();
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
-                    }
-                    break;
-                case 2:
-                    try {
-                        it->prev();
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
-                    }
-                    break;
-                case 3:
-                    try {
-                        Console::println(it->getData());
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
-                    }
-                    break;
-                case 4:
-                    Console::print("Enter value: ");
-                    int val;
-                    cin >> val;
-                    try {
-                        Console::println(it->setData(val));
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
-                    }
-                    break;
-                case 5:
-                    it->setList();
-                    break;
-                case 6:
-                    try {
-                        it->toHead();
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
-                    }
-                    break;
-                case 7:
-                    try {
-                        it->toTail();
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
-                    }
-                    break;
-                default:
-                    Console::print("Incorrect value");
-                    break;
-            }
-            getchar();
-        }
-    }
+//    static void riteratorMenu(Tree<> *tree, Tree<>::rIterator *it) {
+//        bool flag = true;
+//        int action = 0;
+//        while (flag) {
+//            Console::print("Has tree: ");
+//            Console::println(it->hasList());
+//            Console::print("Has node: ");
+//            Console::println(it->hasNode());
+//            Console::print("Current value: ");
+//            try {
+//                Console::println(it->getData());
+//            } catch (const exception &ex) {
+//                Console::println("EXCEPTION");
+//            }
+//            Console::println("----------------------------------");
+//            tree->print();
+//            Console::println("---------------MENU---------------");
+//            Console::println("0) EXIT");
+//            Console::println("1) Go to next");
+//            Console::println("2) Go to prev");
+//            Console::println("3) Get value");
+//            Console::println("4) Set value");
+//            Console::println("5) Drop tree");
+//            Console::println("6) To head");
+//            Console::println("7) To tail");
+//            cin >> action;
+//            switch (action) {
+//                case 0:
+//                    flag = false;
+//                    break;
+//                case 1:
+//                    try {
+//                        it->next();
+//                    } catch (const exception &ex) {
+//                        Console::println("EXCEPTION");
+//                    }
+//                    break;
+//                case 2:
+//                    try {
+//                        it->prev();
+//                    } catch (const exception &ex) {
+//                        Console::println("EXCEPTION");
+//                    }
+//                    break;
+//                case 3:
+//                    try {
+//                        Console::println(it->getData());
+//                    } catch (const exception &ex) {
+//                        Console::println("EXCEPTION");
+//                    }
+//                    break;
+//                case 4:
+//                    Console::print("Enter value: ");
+//                    int val;
+//                    cin >> val;
+//                    try {
+//                        Console::println(it->setData(val));
+//                    } catch (const exception &ex) {
+//                        Console::println("EXCEPTION");
+//                    }
+//                    break;
+//                case 5:
+//                    it->setList();
+//                    break;
+//                case 6:
+//                    try {
+//                        it->toHead();
+//                    } catch (const exception &ex) {
+//                        Console::println("EXCEPTION");
+//                    }
+//                    break;
+//                case 7:
+//                    try {
+//                        it->toTail();
+//                    } catch (const exception &ex) {
+//                        Console::println("EXCEPTION");
+//                    }
+//                    break;
+//                default:
+//                    Console::print("Incorrect value");
+//                    break;
+//            }
+//            getchar();
+//        }
+//    }
 };
 
 #endif //LAB1_MENU_H
