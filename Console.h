@@ -56,7 +56,7 @@ public:
 
     static void print(const char *str, COLORS color = COLORS::DEFAULT);
 
-    static void println(const char *str, COLORS color = COLORS::DEFAULT);
+    static void println(const char *str = "", COLORS color = COLORS::DEFAULT);
 
     static void info(const char *str);
 

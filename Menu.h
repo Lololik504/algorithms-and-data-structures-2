@@ -10,17 +10,17 @@ template<class Data = int>
 class Menu {
 public:
     static void startMenu(Tree<Data> &tree) {
-        auto it = tree.begin();
-//        auto rit = tree.rbegin();
+        typename Tree<Data>::Iterator it = tree.begin();
+//        typename Tree<Data>::rIterator rit = tree.rbegin();
         bool running = true;
         int action = 0;
-        int tmp, number, counter = 0;
+        int tmp, key, number, counter = 0;
         while (running) {
             Console::clear();
             Menu::printActionsList();
             Console::print("Choose action: ");
             cin >> action;
-            Console::println("--- START ACTION ---");
+            Console::println("###################################");
             try {
                 switch (action) {
                     case 0: //exit
@@ -46,31 +46,31 @@ public:
                     case 4: //get data by key
                     {
                         Console::println("Enter key: ");
-                        cin >> action;
-                        Console::println(tree.find(action));
+                        cin >> key;
+                        Console::println(tree.find(key));
                         break;
                     }
                     case 5: //set data by key
                     {
                         Console::println("Enter key: ");
-                        cin >> action;
+                        cin >> key;
                         //TODO: setter function in tree
                         break;
                     }
                     case 6: //insert data with key
                     {
-                        Console::println("Enter value: ");
+                        Console::print("Enter key: ");
+                        cin >> key;
+                        Console::print("Enter value: ");
                         cin >> number;
-                        Console::println("Enter key: ");
-                        cin >> action;
-                        tree.insert(action, number);
+                        tree.insert(key, number);
                         break;
                     }
                     case 7: //remove data by key
                     {
                         Console::println("Enter key: ");
-                        cin >> action;
-                        tree.remove(action);
+                        cin >> key;
+                        tree.remove(key);
                         break;
                     }
                     case 8: //traverse L-T-R
@@ -81,16 +81,18 @@ public:
                     }
                     case 9: //external way length
                     {
+                        tree.print();
+                        break;
+                    }
+                    case 10: //external way length
+                    {
                         //(длина внешнего пути)
                         //TODO: this task
                         break;
                     }
-                    case 10: //forward iterator to min key
+                    case 11: //forward iterator to min key
                     {
                         it = tree.begin();
-                        break;
-                    }
-                    case 11: {
                         break;
                     }
                     case 12: {
@@ -115,7 +117,7 @@ public:
                 Console::error("UNHANDLED EXCEPTION");
                 running = false;
             }
-            Console::println("--- END ACTION ---");
+            Console::println("###################################");
         }
     }
 
@@ -123,26 +125,28 @@ private:
     static void printActionsList() {
         Console::println("┌------┬---------------------┐");
         Console::println("| (0)  | EXIT                |");
-        Console::println("| (1)  | Check tree size     |");
+        Console::println("| (1)  | Get size            |");
         Console::println("| (2)  | Clear tree          |");
         Console::println("| (3)  | Is empty?           |");
-        Console::println("| (4)  | Get by key          |");
-        Console::println("| (4)  | Set by key          |");
-        Console::println("| (5)  | Add value by key    |");
-        Console::println("| (6)  | Remove value by key |");
-        Console::println("| (7)  | Print like list     |");
-        Console::println("| (8)  | Outside way length  |");
-        Console::println("| (9)  | Get Iterator        |");
-        Console::println("| (10) | Get rIterator       |");
-        Console::println("| (11) | Get null Iterator   |");
-        Console::println("| (12) | Get null rIterator  |");
+        Console::println("| (4)  | Get data by key     |");
+        Console::println("| (5)  | Set data by key     |");
+        Console::println("| (6)  | Insert data by key  |");
+        Console::println("| (7)  | Remove data by key  |");
+        Console::println("| (8)  | L-T-R  traverse     |");
+        Console::println("| (9)  | Print tree          |");
+        Console::println("| (10) | External way length |");
+        Console::println("| (11) | Get Iterator        |");
+        Console::println("| (12) | Get rIterator       |");
+        Console::println("| (13) | Get null Iterator   |");
+        Console::println("| (14) | Get null rIterator  |");
         Console::println("└------┴---------------------┘");
     }
 
-    static void iteratorMenu(Tree<> *tree, Tree<>::Iterator *it) {
-        bool flag = true;
+    static void iteratorMenu(Tree<Data> *tree, typename Tree<Data>::Iterator *it) {
+        bool running = true;
         int action = 0;
-        while (flag) {
+        while (running) {
+            Console::println("###################################");
             Console::print("Has tree: ");
             Console::println(it->hasTree());
             Console::print("Has node: ");
@@ -151,46 +155,52 @@ private:
             try {
                 Console::println(it->getData());
             } catch (const exception &ex) {
-                Console::println("EXCEPTION");
+                Console::error("EXCEPTION");
             }
-            Console::println("----------------------------------");
+            Console::println("###################################");
             tree->print();
-            Console::println("---------------MENU---------------");
-            Console::println("0) EXIT");
-            Console::println("1) Go to next");
-            Console::println("2) Go to prev");
-            Console::println("3) Get value");
-            Console::println("4) Set value");
-            Console::println("5) Drop tree");
-            Console::println("6) To minimal key");
-            Console::println("7) To maximal key");
+            Console::println("###################################");
+            Console::println("┌-----┬----------------┐");
+            Console::println("| (0) | EXIT           |");
+            Console::println("| (1) | Go to next     |");
+            Console::println("| (2) | Go to prev     |");
+            Console::println("| (3) | Get value      |");
+            Console::println("| (4) | Set value      |");
+            Console::println("| (5) | Drop tree      |");
+            Console::println("| (6) | To minimal key |");
+            Console::println("| (7) | To maximal key |");
+            Console::println("└-----┴----------------┘");
             cin >> action;
             switch (action) {
-                case 0:
-                    flag = false;
+                case 0: {
+                    running = false;
                     break;
-                case 1:
+                }
+                case 1: {
                     try {
                         it->operator++(1);
                     } catch (const exception &ex) {
                         Console::println("EXCEPTION");
                     }
                     break;
-                case 2:
+                }
+                case 2: {
                     try {
                         it->operator--(1);
                     } catch (const exception &ex) {
                         Console::println("EXCEPTION");
                     }
                     break;
-                case 3:
+                }
+                case 3: {
                     try {
                         Console::println(it->getData());
                     } catch (const exception &ex) {
                         Console::println("EXCEPTION");
                     }
                     break;
-                case 4:
+                }
+                case 4: {
                     Console::print("Enter value: ");
                     int val;
                     cin >> val;
@@ -200,26 +210,31 @@ private:
                         Console::println("EXCEPTION");
                     }
                     break;
-                case 5:
+                }
+                case 5: {
                     it->setTree(tree);
                     break;
-                case 6:
+                }
+                case 6: {
                     try {
                         it->toMinimalKey();
                     } catch (const exception &ex) {
                         Console::println("EXCEPTION");
                     }
                     break;
-                case 7:
+                }
+                case 7: {
                     try {
                         it->toMaximalKey();
                     } catch (const exception &ex) {
                         Console::println("EXCEPTION");
                     }
                     break;
-                default:
+                }
+                default: {
                     Console::print("Incorrect value");
                     break;
+                }
             }
             getchar();
         }

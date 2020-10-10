@@ -39,7 +39,7 @@ private:
     Node *root;
     int size;
 
-    void print(Node *root, int lvl);
+    void print(Node *node, int lvl);
 
 public:
     explicit Tree() : root(nullptr), size(0) {};
@@ -369,6 +369,7 @@ void Tree<Key, Data>::traverse() {
             nodes.push(node->getLeft());
         }
     }
+    Console::println();
 }
 
 template<class Key, class Data>
