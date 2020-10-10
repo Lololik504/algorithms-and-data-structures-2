@@ -65,6 +65,8 @@ public:
     static void warning(const char *str);
 
     static void error(const char *str);
+
+    static void success(const char *str);
 };
 
 #endif //LAB2_3_CONSOLE_H

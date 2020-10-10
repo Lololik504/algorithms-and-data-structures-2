@@ -7,6 +7,10 @@
 
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
+    Console::setLogging();
+
+    Console::debug("START TEST");
+    Console::info("START TEST");
 
     Tree<int> tree;
 
@@ -35,6 +39,9 @@ int main() {
         it--;
         it.print();
     }
+
+    Console::debug("END TEST");
+
     return 0;
 }
 

@@ -217,17 +217,18 @@ void Console::info(const char *str) {
     if (!Console::LOGGING) {
         return;
     }
+    COLORS color = COLORS::WHITE;
     switch (Console::SYSTEM) {
         case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLORS::CYAN);
+            Console::SET_COLOR(color);
             cout << "[INFO]: " << str << endl;
             Console::SET_COLOR();
             break;
         case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLORS::CYAN) << "[INFO]: " << str << Console::PARSE_COLOR() << endl;
+            cout << Console::PARSE_COLOR(color) << "[INFO]: " << str << Console::PARSE_COLOR() << endl;
             break;
         case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLORS::CYAN) << "[INFO]: " << str << Console::PARSE_COLOR() << endl;
+            cout << Console::PARSE_COLOR(color) << "[INFO]: " << str << Console::PARSE_COLOR() << endl;
             break;
     }
 }
@@ -236,17 +237,18 @@ void Console::debug(const char *str) {
     if (!Console::LOGGING) {
         return;
     }
+    COLORS color = COLORS::BLUE;
     switch (Console::SYSTEM) {
         case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLORS::GREEN);
+            Console::SET_COLOR(color);
             cout << "[DEBUG]: " << str << endl;
             Console::SET_COLOR();
             break;
         case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLORS::GREEN) << "[DEBUG]: " << str << Console::PARSE_COLOR() << endl;
+            cout << Console::PARSE_COLOR(color) << "[DEBUG]: " << str << Console::PARSE_COLOR() << endl;
             break;
         case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLORS::GREEN) << "[DEBUG]: " << str << Console::PARSE_COLOR() << endl;
+            cout << Console::PARSE_COLOR(color) << "[DEBUG]: " << str << Console::PARSE_COLOR() << endl;
             break;
     }
 }
@@ -255,17 +257,18 @@ void Console::warning(const char *str) {
     if (!Console::LOGGING) {
         return;
     }
+    COLORS color = COLORS::YELLOW;
     switch (Console::SYSTEM) {
         case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLORS::YELLOW);
+            Console::SET_COLOR(color);
             cout << "[WARNING]: " << str << endl;
             Console::SET_COLOR();
             break;
         case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLORS::YELLOW) << "[WARNING]: " << str << Console::PARSE_COLOR() << endl;
+            cout << Console::PARSE_COLOR(color) << "[WARNING]: " << str << Console::PARSE_COLOR() << endl;
             break;
         case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLORS::YELLOW) << "[WARNING]: " << str << Console::PARSE_COLOR() << endl;
+            cout << Console::PARSE_COLOR(color) << "[WARNING]: " << str << Console::PARSE_COLOR() << endl;
             break;
     }
 }
@@ -274,17 +277,38 @@ void Console::error(const char *str) {
     if (!Console::LOGGING) {
         return;
     }
+    COLORS color = COLORS::RED;
     switch (Console::SYSTEM) {
         case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLORS::RED);
+            Console::SET_COLOR(color);
             cout << "[ERROR]: " << str << endl;
             Console::SET_COLOR();
             break;
         case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLORS::RED) << "[ERROR]: " << str << Console::PARSE_COLOR() << endl;
+            cout << Console::PARSE_COLOR(color) << "[ERROR]: " << str << Console::PARSE_COLOR() << endl;
             break;
         case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLORS::RED) << "[ERROR]: " << str << Console::PARSE_COLOR() << endl;
+            cout << Console::PARSE_COLOR(color) << "[ERROR]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
+void Console::success(const char *str) {
+    if (!Console::LOGGING) {
+        return;
+    }
+    COLORS color = COLORS::GREEN;
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(color);
+            cout << "[ERROR]: " << str << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(color) << "[ERROR]: " << str << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(color) << "[ERROR]: " << str << Console::PARSE_COLOR() << endl;
             break;
     }
 }
