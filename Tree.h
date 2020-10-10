@@ -429,7 +429,7 @@ int Tree<Key, Data>::getSize() {
 
 
 template<class Key, class Data>
-typename Tree<Key, Data>::Node* Tree<Key, Data>:: getNodeByKey(Key key) {
+typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeByKey(Key key) {
     Node *node = this->root;
     while (node && key != node->getKey()) {
         if (key < node->getKey()) {
@@ -453,7 +453,48 @@ Data Tree<Key, Data>::find(Key key) {
 
 template<class Key, class Data>
 bool Tree<Key, Data>::remove(Key key) {
-    return false;
+    Node *cur = this->root;
+    Node *prev = nullptr;
+    while (key != cur->getKey() && cur != nullptr) {
+        prev = cur;
+        if (key < cur->getKey())
+            cur = cur->getLeft();
+        else
+            cur = cur->getRight();
+    }
+    if (cur == nullptr)
+        return false;
+    Node *x = nullptr;
+    Node *y = nullptr;
+    if (cur->getLeft() == nullptr && cur->getRight() == nullptr) {
+        x = nullptr;
+    } else if (cur->getLeft() == nullptr) {
+        x = cur->getRight();
+    } else if (cur->getRight() == nullptr) {
+        x = cur->getLeft();
+    } else {
+        prev = cur;
+        cur = cur->getRight();
+        cur = this->min(cur);
+        y = this->getParrent(cur);
+        prev->setKey(cur->getKey());
+        prev->setData(cur->getData());
+        if (y != prev)
+            y->setLeft(nullptr);
+        else
+            prev->setRight(nullptr);
+    }
+    if (prev == nullptr) {
+        this->root = x;
+    } else if (y == nullptr) {
+        if (cur->getKey() < prev->getKey()) {
+            prev->setLeft(x);
+        } else {
+            prev->setRight(x);
+        }
+    }
+    delete (cur);
+    return true;
 }
 
 template<class Key, class Data>
@@ -575,8 +616,8 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::min(Tree::Node *node) {
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMinimalKey() {
-    Node* node = this->root;
-    while(node->getLeft()!= nullptr){
+    Node *node = this->root;
+    while (node->getLeft() != nullptr) {
         node = node->getLeft();
     }
     return node;
@@ -584,8 +625,8 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMinimalKey() {
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMaximalKey() {
-    Node* node = this->root;
-    while(node->getRight()!= nullptr){
+    Node *node = this->root;
+    while (node->getRight() != nullptr) {
         node = node->getRight();
     }
     return node;
