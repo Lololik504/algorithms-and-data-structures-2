@@ -1,4 +1,3 @@
-
 #include "Console.h"
 #include "Tree.h"
 
@@ -36,9 +35,6 @@ int main() {
         it--;
         it.print();
     }
-
-
-
     return 0;
 }
 
