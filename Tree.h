@@ -455,22 +455,24 @@ template<class Key, class Data>
 bool Tree<Key, Data>::remove(Key key) {
     Node *cur = this->root;
     Node *prev = nullptr;
-    while (key != cur->getKey() && cur != nullptr) {
+    while (key != cur->getKey() && cur) {
         prev = cur;
         if (key < cur->getKey())
             cur = cur->getLeft();
         else
             cur = cur->getRight();
     }
-    if (cur == nullptr)
+    if (!cur)
         return false;
+
     Node *x = nullptr;
     Node *y = nullptr;
-    if (cur->getLeft() == nullptr && cur->getRight() == nullptr) {
+
+    if (!cur->getLeft() && !cur->getRight()) {
         x = nullptr;
-    } else if (cur->getLeft() == nullptr) {
+    } else if (!cur->getLeft()) {
         x = cur->getRight();
-    } else if (cur->getRight() == nullptr) {
+    } else if (!cur->getRight()) {
         x = cur->getLeft();
     } else {
         prev = cur;
@@ -484,9 +486,9 @@ bool Tree<Key, Data>::remove(Key key) {
         else
             prev->setRight(nullptr);
     }
-    if (prev == nullptr) {
+    if (!prev) {
         this->root = x;
-    } else if (y == nullptr) {
+    } else if (!y) {
         if (cur->getKey() < prev->getKey()) {
             prev->setLeft(x);
         } else {
