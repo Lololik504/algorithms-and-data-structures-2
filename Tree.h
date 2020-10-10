@@ -72,7 +72,7 @@ public:
 
     bool remove(Key key);
 
-    bool setValueByKey(Key key, Data value);
+    bool setData(Key key, Data data);
 
     void traverse();
 
@@ -159,7 +159,7 @@ Data Tree<Key, Data>::Iterator::getData() {
 
 template<class Key, class Data>
 bool Tree<Key, Data>::Iterator::hasNode() {
-    return (this->node == nullptr) ? false : true;
+    return this->node != nullptr;
 }
 
 template<class Key, class Data>
@@ -327,15 +327,19 @@ void Tree<Key, Data>::clear() {
     while (!nodes.empty()) {
         Node *node = nodes.top();
         nodes.pop();
+        Console::debug("REMOVED");
         if (node->getRight()) {
             nodes.push(node->getRight());
         }
         Node *left = node->getLeft();
         delete node;
+        node = nullptr;
+        this->size--;
         if (left) {
             nodes.push(left);
         }
     }
+    this->root = nullptr;
 }
 
 template<class Key, class Data>
@@ -368,6 +372,9 @@ bool Tree<Key, Data>::insert(Key key, Data data) {
 
 template<class Key, class Data>
 void Tree<Key, Data>::traverse() {
+    if (this->isEmpty()) {
+        throw runtime_error("EMPTY LIST");
+    }
     stack < Node * > nodes;
     nodes.push(this->root);
     while (!nodes.empty()) {
@@ -397,7 +404,10 @@ void Tree<Key, Data>::print(Tree<Key, Data>::Node *node, int lvl) {
         for (int i = 0; i < lvl; ++i) {
             Console::print("    ");
         }
-        Console::println(node->getKey(), static_cast<COLORS>(lvl % 8));
+        Console::print(node->getKey(), static_cast<COLORS>(lvl % 8)); // TODO: auto countering of COLORS length
+        Console::print("(", static_cast<COLORS>(lvl % 8));
+        Console::print(node->getData(), static_cast<COLORS>(lvl % 8));
+        Console::println(")", static_cast<COLORS>(lvl % 8));
         this->print(node->getLeft(), lvl + 1);
     } else {
         for (int i = 0; i < lvl; ++i) {
@@ -429,7 +439,7 @@ typename Tree<Key, Data>::Node* Tree<Key, Data>:: getNodeByKey(Key key) {
         }
     }
     if (!node) {
-        throw invalid_argument("No key");
+        throw invalid_argument("KEY ERROR");
     }
     return node;
 }
@@ -443,7 +453,7 @@ Data Tree<Key, Data>::find(Key key) {
 
 template<class Key, class Data>
 bool Tree<Key, Data>::remove(Key key) {
-
+    return false;
 }
 
 template<class Key, class Data>
@@ -582,7 +592,7 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMaximalKey() {
 }
 
 template<class Key, class Data>
-bool Tree<Key, Data>::setValueByKey(Key key, Data data) {
+bool Tree<Key, Data>::setData(Key key, Data data) {
     try {
         Node *node = this->getNodeByKey(key);
         node->setData(data);

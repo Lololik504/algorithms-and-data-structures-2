@@ -14,7 +14,7 @@ public:
 //        typename Tree<Data>::rIterator rit = tree.rbegin();
         bool running = true;
         int action = 0;
-        int tmp, key, number, counter = 0;
+        int tmp, key, data, counter = 0;
         while (running) {
             Console::clear();
             Menu::printActionsList();
@@ -47,14 +47,20 @@ public:
                     {
                         Console::println("Enter key: ");
                         cin >> key;
-                        Console::println(tree.find(key));
+                        try {
+                            Console::println(tree.find(key));
+                        } catch (const invalid_argument &ex) {
+                            Console::error(ex.what());
+                        }
                         break;
                     }
                     case 5: //set data by key
                     {
-                        Console::println("Enter key: ");
+                        Console::print("Enter key: ");
                         cin >> key;
-                        //TODO: setter function in tree
+                        Console::print("Enter value: ");
+                        cin >> data;
+                        tree.setData(key, data) ? Console::success("SET") : Console::error("KEY ERROR");
                         break;
                     }
                     case 6: //insert data with key
@@ -62,43 +68,45 @@ public:
                         Console::print("Enter key: ");
                         cin >> key;
                         Console::print("Enter value: ");
-                        cin >> number;
-                        tree.insert(key, number);
+                        cin >> data;
+                        tree.insert(key, data) ? Console::success("INSERTED") : Console::error("KEY ALREADY EXISTS");
                         break;
                     }
                     case 7: //remove data by key
                     {
                         Console::println("Enter key: ");
                         cin >> key;
-                        tree.remove(key);
+                        tree.remove(key) ? Console::success("REMOVED") : Console::error("KEY ERROR");
                         break;
                     }
                     case 8: //traverse L-T-R
                     {
-                        //TODO: print tree like list Lt-T-Rt
                         tree.traverse();
                         break;
                     }
-                    case 9: //external way length
+                    case 9: //tree-like print
                     {
                         tree.print();
                         break;
                     }
                     case 10: //external way length
                     {
-                        //(длина внешнего пути)
+                        //
                         //TODO: this task
                         break;
                     }
                     case 11: //forward iterator to min key
                     {
                         it = tree.begin();
+                        Menu<Data>::iteratorMenu(&tree, &it);
                         break;
                     }
                     case 12: {
                         break;
                     }
                     case 13: {
+//                        it = tree.end();
+//                        Menu<Data>::iteratorMenu(&tree, &it);
                         break;
                     }
                     case 14: {
@@ -224,11 +232,11 @@ private:
                     break;
                 }
                 case 7: {
-                    try {
-                        it->toMaximalKey();
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
-                    }
+//                    try {
+//                        it->toMaximalKey();
+//                    } catch (const exception &ex) {
+//                        Console::println("EXCEPTION");
+//                    }
                     break;
                 }
                 default: {
