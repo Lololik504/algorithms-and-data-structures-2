@@ -46,6 +46,8 @@ public:
 
     ~Tree();
 
+    Node *getNodeByKey(Key key);
+
     Node *max(Node *node);
 
     Node *min(Node *node);
@@ -53,6 +55,10 @@ public:
     Node *biggerParent(Node *current, Node *target);
 
     Node *lessParent(Node *current, Node *target);
+
+    Node *getNodeWithMinimalKey();
+
+    Node *getNodeWithMaximalKey();
 
     Node *getPrev(Node *target);
 
@@ -65,6 +71,8 @@ public:
     Data find(Key key);
 
     bool remove(Key key);
+
+    bool setValueByKey(Key key, Data value);
 
     void traverse();
 
@@ -98,7 +106,7 @@ public:
 
         Node *getParrent();
 
-        bool toMinimalKey();
+        void toMinimalKey();
 
         bool toMaximalKey();
 
@@ -246,6 +254,11 @@ bool Tree<Key, Data>::Iterator::hasTree() {
         return true;
     else
         return false;
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::Iterator::toMinimalKey() {
+    this->node = tree->getNodeWithMinimalKey();
 }
 
 
@@ -403,8 +416,9 @@ int Tree<Key, Data>::getSize() {
     return this->size;
 }
 
+
 template<class Key, class Data>
-Data Tree<Key, Data>::find(Key key) {
+typename Tree<Key, Data>::Node* Tree<Key, Data>:: getNodeByKey(Key key) {
     Node *node = this->root;
     while (node && key != node->getKey()) {
         if (key < node->getKey()) {
@@ -416,55 +430,19 @@ Data Tree<Key, Data>::find(Key key) {
     if (!node) {
         throw invalid_argument("No key");
     }
-    return node->getData();
+    return node;
 }
 
 template<class Key, class Data>
+Data Tree<Key, Data>::find(Key key) {
+    Node *node = getNodeByKey(key);
+    return node->getData();
+}
+
+
+template<class Key, class Data>
 bool Tree<Key, Data>::remove(Key key) {
-    // TODO: shit algo... rewrite! It's from mEtOdI4kA
-    Node *node = this->root;
-    Node *nodeBefore, *x, *y;
-    while (node && node->getKey() != key) {
-        nodeBefore = node;
-        if (key < node->getKey()) {
-            node = node->getLeft();
-        } else {
-            node = node->getRight();
-        }
-    }
-    if (!node) {
-        return false;
-    }
-    nodeBefore = nullptr;
-    if (!node->getLeft() && !node->getRight()) {
-        x = nullptr;
-    } else if (!node->getLeft()) {
-        x = node->getRight();
-    } else if (!node->getRight()) {
-        x = node->getLeft();
-    } else {
-        nodeBefore = node;
-        y = node->getRight();
-        while (y->getLeft()) {
-            nodeBefore = y;
-            y = y->getLeft();
-        }
-        node->setKey(y->getKey());
-        node->setData(y->getData());
-        x = y->getRight();
-        node = y;
-    }
-    if (!node) {
-        this->root = x;
-    } else {
-        if (node->getKey() < nodeBefore->getKey()) {
-            nodeBefore->setLeft(x);
-        } else {
-            node->setRight(x);
-        }
-    }
-    delete node;
-    return true;
+
 }
 
 template<class Key, class Data>
@@ -582,6 +560,36 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::min(Tree::Node *node) {
         node = node->getLeft();
     }
     return node;
+}
+
+template<class Key, class Data>
+typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMinimalKey() {
+    Node* node = this->root;
+    while(node->getLeft()!= nullptr){
+        node = node->getLeft();
+    }
+    return node;
+}
+
+template<class Key, class Data>
+typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMaximalKey() {
+    Node* node = this->root;
+    while(node->getRight()!= nullptr){
+        node = node->getRight();
+    }
+    return node;
+}
+
+template<class Key, class Data>
+bool Tree<Key, Data>::setValueByKey(Key key, Data data) {
+    try {
+        Node *node = this->getNodeByKey(key);
+        node->setData(data);
+    }
+    catch (exception ex) {
+        return false;
+    }
+    return true;
 }
 
 #endif //LAB2_3_TREE_H
