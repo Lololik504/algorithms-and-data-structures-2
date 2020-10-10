@@ -6,15 +6,15 @@
 #ifndef LAB1_MENU_H
 #define LAB1_MENU_H
 
-template<class Data = int>
+template<class Key = int, class Data = int>
 class Menu {
 public:
-    static void startMenu(Tree<Data> &tree) {
-        typename Tree<Data>::Iterator it = tree.begin();
-        typename Tree<Data>::rIterator rit = tree.rbegin();
+    static void startMenu(Tree<Key, Data> &tree) {
+        typename Tree<Key, Data>::Iterator it = tree.begin();
+        typename Tree<Key, Data>::rIterator rit = tree.rbegin();
         bool running = true;
         int action = 0;
-        int tmp, key, data, counter = 0;
+        int key, data;
         while (running) {
             Console::clear();
             Menu::printActionsList();
@@ -48,6 +48,7 @@ public:
                         Console::println("Enter key: ");
                         cin >> key;
                         try {
+                            Tree<Key, Data>::NULLIFY_COUNTER();
                             Console::success(tree.find(key));
                         } catch (const invalid_argument &ex) {
                             Console::error(ex.what());
@@ -60,6 +61,7 @@ public:
                         cin >> key;
                         Console::print("Enter value: ");
                         cin >> data;
+                        Tree<Key, Data>::NULLIFY_COUNTER();
                         tree.setData(key, data) ? Console::success("SET") : Console::error("KEY ERROR");
                         break;
                     }
@@ -69,6 +71,7 @@ public:
                         cin >> key;
                         Console::print("Enter value: ");
                         cin >> data;
+                        Tree<Key, Data>::NULLIFY_COUNTER();
                         tree.insert(key, data) ? Console::success("INSERTED") : Console::error("KEY ALREADY EXISTS");
                         break;
                     }
@@ -76,11 +79,13 @@ public:
                     {
                         Console::println("Enter key: ");
                         cin >> key;
+                        Tree<Key, Data>::NULLIFY_COUNTER();
                         tree.remove(key) ? Console::success("REMOVED") : Console::error("KEY ERROR");
                         break;
                     }
                     case 8: //traverse L-T-R
                     {
+                        Tree<Key, Data>::NULLIFY_COUNTER();
                         tree.traverse();
                         break;
                     }
@@ -91,6 +96,7 @@ public:
                     }
                     case 10: //external way length
                     {
+                        Tree<Key, Data>::NULLIFY_COUNTER();
                         Console::println(tree.getExternalWayLength());
                         break;
                     }
@@ -101,22 +107,22 @@ public:
                         break;
                     }
                     case 12: {
-                        rit = tree.rbegin();
-                        Menu<Data>::rIteratorMenu(&tree, &rit);
-                        break;
-                    }
-                    case 13: {
                         it = tree.end();
                         Menu<Data>::iteratorMenu(&tree, &it);
                         break;
                     }
+                    case 13: {
+                        Menu<Data>::iteratorMenu(&tree, &it);
+                        break;
+                    }
                     case 14: {
-                        rit = tree.rend();
+                        rit = tree.rbegin();
                         Menu<Data>::rIteratorMenu(&tree, &rit);
                         break;
                     }
                     case 15: {
-                        Menu<Data>::iteratorMenu(&tree, &it);
+                        rit = tree.rend();
+                        Menu<Data>::rIteratorMenu(&tree, &rit);
                         break;
                     }
                     case 16: {
@@ -141,6 +147,10 @@ public:
                     }
                     case 21: {
                         Console::println(*it == *rit);
+                        break;
+                    }
+                    case 22: {
+                        Console::println(Tree<Key, Data>::GET_COUNTER());
                         break;
                     }
                     default: {
@@ -175,16 +185,17 @@ private:
         Console::println("║ (9)  ║ Print tree            ║");
         Console::println("║ (10) ║ External way length   ║");
         Console::println("║ (11) ║ Get begin Iterator    ║");
-        Console::println("║ (12) ║ Get begin rIterator   ║");
-        Console::println("║ (13) ║ Get end Iterator      ║");
-        Console::println("║ (14) ║ Get end rIterator     ║");
-        Console::println("║ (15) ║ Get cur Iterator      ║");
+        Console::println("║ (12) ║ Get end Iterator      ║");
+        Console::println("║ (13) ║ Get cur Iterator      ║");
+        Console::println("║ (14) ║ Get begin rIterator   ║");
+        Console::println("║ (15) ║ Get end rIterator     ║");
         Console::println("║ (16) ║ Get cur rIterator     ║");
         Console::println("║ (17) ║ Iterator == begin()   ║");
         Console::println("║ (18) ║ Iterator == end()     ║");
         Console::println("║ (19) ║ rIterator == rbegin() ║");
         Console::println("║ (20) ║ rIterator == rend()   ║");
         Console::println("║ (21) ║ Iterator == rIterator ║");
+        Console::println("║ (22) ║ Get counter           ║");
         Console::println("╚══════╩═══════════════════════╝");
     }
 
@@ -231,11 +242,11 @@ private:
                         break;
                     }
                     case 1: {
-                        it->operator++(1);
+                        (*it)++;
                         break;
                     }
                     case 2: {
-                        it->operator--(1);
+                        (*it)--;
                         break;
                     }
                     case 3: {
@@ -315,11 +326,11 @@ private:
                         break;
                     }
                     case 1: {
-                        it->operator++(1);
+                        (*it)++;
                         break;
                     }
                     case 2: {
-                        it->operator--(1);
+                        (*it)--;
                         break;
                     }
                     case 3: {
