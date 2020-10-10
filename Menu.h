@@ -11,7 +11,7 @@ class Menu {
 public:
     static void startMenu(Tree<Data> &tree) {
         typename Tree<Data>::Iterator it = tree.begin();
-//        typename Tree<Data>::rIterator rit = tree.rbegin();
+        typename Tree<Data>::rIterator rit = tree.rbegin();
         bool running = true;
         int action = 0;
         int tmp, key, data, counter = 0;
@@ -48,7 +48,7 @@ public:
                         Console::println("Enter key: ");
                         cin >> key;
                         try {
-                            Console::println(tree.find(key));
+                            Console::success(tree.find(key));
                         } catch (const invalid_argument &ex) {
                             Console::error(ex.what());
                         }
@@ -91,8 +91,7 @@ public:
                     }
                     case 10: //external way length
                     {
-                        //
-                        //TODO: this task
+                        Console::println(tree.getExternalWayLength());
                         break;
                     }
                     case 11: //forward iterator to min key
@@ -102,18 +101,50 @@ public:
                         break;
                     }
                     case 12: {
+                        rit = tree.rbegin();
+                        Menu<Data>::rIteratorMenu(&tree, &rit);
                         break;
                     }
                     case 13: {
-//                        it = tree.end();
-//                        Menu<Data>::iteratorMenu(&tree, &it);
+                        it = tree.end();
+                        Menu<Data>::iteratorMenu(&tree, &it);
                         break;
                     }
                     case 14: {
+                        rit = tree.rend();
+                        Menu<Data>::rIteratorMenu(&tree, &rit);
+                        break;
+                    }
+                    case 15: {
+                        Menu<Data>::iteratorMenu(&tree, &it);
+                        break;
+                    }
+                    case 16: {
+                        Menu<Data>::rIteratorMenu(&tree, &rit);
+                        break;
+                    }
+                    case 17: {
+                        Console::println(it == tree.begin());
+                        break;
+                    }
+                    case 18: {
+                        Console::println(it == tree.end());
+                        break;
+                    }
+                    case 19: {
+                        Console::println(rit == tree.rbegin());
+                        break;
+                    }
+                    case 20: {
+                        Console::println(rit == tree.rend());
+                        break;
+                    }
+                    case 21: {
+                        Console::println(*it == *rit);
                         break;
                     }
                     default: {
-                        Console::print("Incorrect value!");
+                        Console::error("Incorrect value!");
                         break;
                     }
                 }
@@ -131,208 +162,199 @@ public:
 
 private:
     static void printActionsList() {
-        Console::println("┌------┬---------------------┐");
-        Console::println("| (0)  | EXIT                |");
-        Console::println("| (1)  | Get size            |");
-        Console::println("| (2)  | Clear tree          |");
-        Console::println("| (3)  | Is empty?           |");
-        Console::println("| (4)  | Get data by key     |");
-        Console::println("| (5)  | Set data by key     |");
-        Console::println("| (6)  | Insert data by key  |");
-        Console::println("| (7)  | Remove data by key  |");
-        Console::println("| (8)  | L-T-R  traverse     |");
-        Console::println("| (9)  | Print tree          |");
-        Console::println("| (10) | External way length |");
-        Console::println("| (11) | Get Iterator        |");
-        Console::println("| (12) | Get rIterator       |");
-        Console::println("| (13) | Get null Iterator   |");
-        Console::println("| (14) | Get null rIterator  |");
-        Console::println("└------┴---------------------┘");
+        Console::println("╔══════╦═══════════════════════╗");
+        Console::println("║ (0)  ║ EXIT                  ║");
+        Console::println("║ (1)  ║ Get size              ║");
+        Console::println("║ (2)  ║ Clear tree            ║");
+        Console::println("║ (3)  ║ Is empty?             ║");
+        Console::println("║ (4)  ║ Get data by key       ║");
+        Console::println("║ (5)  ║ Set data by key       ║");
+        Console::println("║ (6)  ║ Insert data by key    ║");
+        Console::println("║ (7)  ║ Remove data by key    ║");
+        Console::println("║ (8)  ║ L-T-R  traverse       ║");
+        Console::println("║ (9)  ║ Print tree            ║");
+        Console::println("║ (10) ║ External way length   ║");
+        Console::println("║ (11) ║ Get begin Iterator    ║");
+        Console::println("║ (12) ║ Get begin rIterator   ║");
+        Console::println("║ (13) ║ Get end Iterator      ║");
+        Console::println("║ (14) ║ Get end rIterator     ║");
+        Console::println("║ (15) ║ Get cur Iterator      ║");
+        Console::println("║ (16) ║ Get cur rIterator     ║");
+        Console::println("║ (17) ║ Iterator == begin()   ║");
+        Console::println("║ (18) ║ Iterator == end()     ║");
+        Console::println("║ (19) ║ rIterator == rbegin() ║");
+        Console::println("║ (20) ║ rIterator == rend()   ║");
+        Console::println("║ (21) ║ Iterator == rIterator ║");
+        Console::println("╚══════╩═══════════════════════╝");
     }
 
     static void iteratorMenu(Tree<Data> *tree, typename Tree<Data>::Iterator *it) {
         bool running = true;
         int action = 0;
         while (running) {
-            Console::println("###################################");
+            Console::println("▬▬▬▬▬▬▬▬▬▬▬▬▬▬ITERATOR▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
             Console::print("Has tree: ");
             Console::println(it->hasTree());
             Console::print("Has node: ");
             Console::println(it->hasNode());
-            Console::print("Current value: ");
+            Console::print("Current key: ");
+            try {
+                Console::println(it->getKey());
+            } catch (const exception &ex) {
+                Console::error("EXCEPTION");
+            }
+            Console::print("Current data: ");
             try {
                 Console::println(it->getData());
             } catch (const exception &ex) {
                 Console::error("EXCEPTION");
             }
-            Console::println("###################################");
+            Console::println("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
             tree->print();
-            Console::println("###################################");
-            Console::println("┌-----┬----------------┐");
-            Console::println("| (0) | EXIT           |");
-            Console::println("| (1) | Go to next     |");
-            Console::println("| (2) | Go to prev     |");
-            Console::println("| (3) | Get value      |");
-            Console::println("| (4) | Set value      |");
-            Console::println("| (5) | Drop tree      |");
-            Console::println("| (6) | To minimal key |");
-            Console::println("| (7) | To maximal key |");
-            Console::println("└-----┴----------------┘");
+            Console::println("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+            Console::println("╔═════╦════════════════╗");
+            Console::println("║ (0) ║ EXIT           ║");
+            Console::println("║ (1) ║ Go to next     ║");
+            Console::println("║ (2) ║ Go to prev     ║");
+            Console::println("║ (3) ║ Get value      ║");
+            Console::println("║ (4) ║ Set value      ║");
+            Console::println("║ (5) ║ Drop tree      ║");
+            Console::println("║ (6) ║ To minimal key ║");
+            Console::println("║ (7) ║ To maximal key ║");
+            Console::println("╚═════╩════════════════╝");
+            Console::print("Choose action: ");
             cin >> action;
-            switch (action) {
-                case 0: {
-                    running = false;
-                    break;
-                }
-                case 1: {
-                    try {
+            try {
+                switch (action) {
+                    case 0: {
+                        running = false;
+                        break;
+                    }
+                    case 1: {
                         it->operator++(1);
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
+                        break;
                     }
-                    break;
-                }
-                case 2: {
-                    try {
+                    case 2: {
                         it->operator--(1);
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
+                        break;
                     }
-                    break;
-                }
-                case 3: {
-                    try {
-                        Console::println(it->getData());
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
+                    case 3: {
+                        Console::success(it->getData());
+                        break;
                     }
-                    break;
-                }
-                case 4: {
-                    Console::print("Enter value: ");
-                    int val;
-                    cin >> val;
-                    try {
-                        Console::println(it->setData(val));
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
+                    case 4: {
+                        Console::print("Enter value: ");
+                        int val;
+                        cin >> val;
+                        Console::success(it->setData(val));
+                        break;
                     }
-                    break;
-                }
-                case 5: {
-                    it->setTree(tree);
-                    break;
-                }
-                case 6: {
-                    try {
+                    case 5: {
+                        it->setTree(tree);
+                        break;
+                    }
+                    case 6: {
                         it->toMinimalKey();
-                    } catch (const exception &ex) {
-                        Console::println("EXCEPTION");
+                        break;
                     }
-                    break;
+                    case 7: {
+                        it->toMaximalKey();
+                        break;
+                    }
+                    default: {
+                        Console::error("Incorrect value");
+                        break;
+                    }
                 }
-                case 7: {
-//                    try {
-//                        it->toMaximalKey();
-//                    } catch (const exception &ex) {
-//                        Console::println("EXCEPTION");
-//                    }
-                    break;
-                }
-                default: {
-                    Console::print("Incorrect value");
-                    break;
-                }
+            } catch (const exception &ex) {
+                Console::error(ex.what());
             }
-            getchar();
         }
     }
 
-//    static void riteratorMenu(Tree<> *tree, Tree<>::rIterator *it) {
-//        bool flag = true;
-//        int action = 0;
-//        while (flag) {
-//            Console::print("Has tree: ");
-//            Console::println(it->hasList());
-//            Console::print("Has node: ");
-//            Console::println(it->hasNode());
-//            Console::print("Current value: ");
-//            try {
-//                Console::println(it->getData());
-//            } catch (const exception &ex) {
-//                Console::println("EXCEPTION");
-//            }
-//            Console::println("----------------------------------");
-//            tree->print();
-//            Console::println("---------------MENU---------------");
-//            Console::println("0) EXIT");
-//            Console::println("1) Go to next");
-//            Console::println("2) Go to prev");
-//            Console::println("3) Get value");
-//            Console::println("4) Set value");
-//            Console::println("5) Drop tree");
-//            Console::println("6) To head");
-//            Console::println("7) To tail");
-//            cin >> action;
-//            switch (action) {
-//                case 0:
-//                    flag = false;
-//                    break;
-//                case 1:
-//                    try {
-//                        it->next();
-//                    } catch (const exception &ex) {
-//                        Console::println("EXCEPTION");
-//                    }
-//                    break;
-//                case 2:
-//                    try {
-//                        it->prev();
-//                    } catch (const exception &ex) {
-//                        Console::println("EXCEPTION");
-//                    }
-//                    break;
-//                case 3:
-//                    try {
-//                        Console::println(it->getData());
-//                    } catch (const exception &ex) {
-//                        Console::println("EXCEPTION");
-//                    }
-//                    break;
-//                case 4:
-//                    Console::print("Enter value: ");
-//                    int val;
-//                    cin >> val;
-//                    try {
-//                        Console::println(it->setData(val));
-//                    } catch (const exception &ex) {
-//                        Console::println("EXCEPTION");
-//                    }
-//                    break;
-//                case 5:
-//                    it->setList();
-//                    break;
-//                case 6:
-//                    try {
-//                        it->toHead();
-//                    } catch (const exception &ex) {
-//                        Console::println("EXCEPTION");
-//                    }
-//                    break;
-//                case 7:
-//                    try {
-//                        it->toTail();
-//                    } catch (const exception &ex) {
-//                        Console::println("EXCEPTION");
-//                    }
-//                    break;
-//                default:
-//                    Console::print("Incorrect value");
-//                    break;
-//            }
-//            getchar();
-//        }
-//    }
+    static void rIteratorMenu(Tree<Data> *tree, typename Tree<Data>::rIterator *it) {
+        bool running = true;
+        int action = 0;
+        while (running) {
+            Console::println("▬▬▬▬▬▬▬▬▬▬REVERSE ITERATOR▬▬▬▬▬▬▬▬▬▬");
+            Console::print("Has tree: ");
+            Console::println(it->hasTree());
+            Console::print("Has node: ");
+            Console::println(it->hasNode());
+            Console::print("Current key: ");
+            try {
+                Console::println(it->getKey());
+            } catch (const exception &ex) {
+                Console::error("EXCEPTION");
+            }
+            Console::print("Current data: ");
+            try {
+                Console::println(it->getData());
+            } catch (const exception &ex) {
+                Console::error("EXCEPTION");
+            }
+            Console::println("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+            tree->print();
+            Console::println("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+            Console::println("╔═════╦════════════════╗");
+            Console::println("║ (0) ║ EXIT           ║");
+            Console::println("║ (1) ║ Go to next     ║");
+            Console::println("║ (2) ║ Go to prev     ║");
+            Console::println("║ (3) ║ Get value      ║");
+            Console::println("║ (4) ║ Set value      ║");
+            Console::println("║ (5) ║ Drop tree      ║");
+            Console::println("║ (6) ║ To minimal key ║");
+            Console::println("║ (7) ║ To maximal key ║");
+            Console::println("╚═════╩════════════════╝");
+            Console::print("Choose action: ");
+            cin >> action;
+            try {
+                switch (action) {
+                    case 0: {
+                        running = false;
+                        break;
+                    }
+                    case 1: {
+                        it->operator++(1);
+                        break;
+                    }
+                    case 2: {
+                        it->operator--(1);
+                        break;
+                    }
+                    case 3: {
+                        Console::success(it->getData());
+                        break;
+                    }
+                    case 4: {
+                        Console::print("Enter value: ");
+                        int val;
+                        cin >> val;
+                        Console::success(it->setData(val));
+                        break;
+                    }
+                    case 5: {
+                        it->setTree(tree);
+                        break;
+                    }
+                    case 6: {
+                        it->toMinimalKey();
+                        break;
+                    }
+                    case 7: {
+                        it->toMaximalKey();
+                        break;
+                    }
+                    default: {
+                        Console::error("Incorrect value");
+                        break;
+                    }
+                }
+            } catch (const exception &ex) {
+                Console::error(ex.what());
+            }
+        }
+    }
 };
 
 #endif //LAB1_MENU_H
