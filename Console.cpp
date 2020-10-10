@@ -1,6 +1,6 @@
 #include "Console.h"
 
-#define WIN
+#define WI
 
 #ifdef WIN
 #include <windows.h>
@@ -9,6 +9,7 @@
 SYSTEMS Console::SYSTEM = SYSTEMS::WINDOWS;
 
 void Console::SET_COLOR(COLORS color) {
+#ifdef WIN
     switch (color) {
         case COLORS::BLUE:
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),01);
@@ -38,6 +39,7 @@ void Console::SET_COLOR(COLORS color) {
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),07);
             break;
     }
+#endif
 }
 
 const char *Console::PARSE_COLOR(COLORS color) {

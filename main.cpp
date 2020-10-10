@@ -7,7 +7,7 @@
 #ifdef TEST
 
 int main() {
-    Console::setSystem(SYSTEMS::WINDOWS);
+    Console::setSystem(SYSTEMS::LINUX);
 
     Tree<int> tree;
 

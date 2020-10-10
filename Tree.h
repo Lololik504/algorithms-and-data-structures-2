@@ -90,6 +90,8 @@ public:
 
         bool hasNode();
 
+        bool hasTree();
+
         void print();
 
         Data getData();
@@ -236,6 +238,14 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::Iterator::getParrent() {
 template<class Key, class Data>
 void Tree<Key, Data>::Iterator::print() {
     Console::print(this->node->getKey());
+}
+
+template<class Key, class Data>
+bool Tree<Key, Data>::Iterator::hasTree() {
+    if (this->tree!= nullptr)
+        return true;
+    else
+        return false;
 }
 
 
