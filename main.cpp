@@ -1,10 +1,10 @@
 #include "Console.h"
 #include "Tree.h"
+#include "Menu.h"
 
-#define TEST
+//#define TEST
 
 #ifdef TEST
-
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
     Console::setLogging();
@@ -44,13 +44,19 @@ int main() {
 
     return 0;
 }
-
 #else
+
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
+    Console::setLogging();
 
-    Console::println("Lab 2");
+    Tree<> tree;
+
+    Menu<>::startMenu(tree);
+
+//    Console::println("Lab 2");
 
     return 0;
 }
+
 #endif

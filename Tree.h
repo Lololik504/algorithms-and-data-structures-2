@@ -242,7 +242,7 @@ void Tree<Key, Data>::Iterator::print() {
 
 template<class Key, class Data>
 bool Tree<Key, Data>::Iterator::hasTree() {
-    if (this->tree!= nullptr)
+    if (this->tree != nullptr)
         return true;
     else
         return false;
@@ -306,6 +306,9 @@ Tree<Key, Data>::~Tree() {
 template<class Key, class Data>
 void Tree<Key, Data>::clear() {
     // TODO: may be rewritten by recursive algo
+    if (this->isEmpty()) {
+        throw runtime_error("Tree is empty");
+    }
     stack < Node * > nodes;
     nodes.push(this->root);
     while (!nodes.empty()) {

@@ -6,101 +6,137 @@
 #ifndef LAB1_MENU_H
 #define LAB1_MENU_H
 
+template<class Data = int>
 class Menu {
 public:
-    static void startMenu(Tree<> &tree) {
-        Tree<>::Iterator it = tree.begin();
-        Tree<>::Iterator rit = tree.rbegin();
-        bool flag = true;
+    static void startMenu(Tree<Data> &tree) {
+        auto it = tree.begin();
+//        auto rit = tree.rbegin();
+        bool running = true;
         int action = 0;
         int tmp, number, counter = 0;
-        while (flag) {
+        while (running) {
             Console::clear();
             Menu::printActionsList();
+            Console::print("Choose action: ");
             cin >> action;
-            Console::print("\n\n---ACTION---\n\n");
-            switch (action) {
-                case 0:
-                    flag = false;
-                    break;
-                case 1://опрос размера дерева
-                    Console::println(tree.getSize());
-                    break;
-                case 2://очистка дерева
-                    tree.clear();
-                    break;
-                case 3://проверка дерева на пустоту
-                    Console::println(tree.isEmpty());
-                    break;
-                case 4://доступ по чтению к данным по ключу
-                    Console::println("Enter key: ");
-                    cin >> action;
-                    Console::println(tree.find(action));
-                    break;
-                case 5://доступ по записи к данным по ключу
-                    Console::println("Enter key: ");
-                    cin >> action;
-                    //TODO: setter function in tree
-                    break;
-                case 6://включение данных с заданным ключом
-                    Console::println("Enter value: ");
-                    cin >> number;
-                    Console::println("Enter key: ");
-                    cin >> action;
-                    tree.insert(action, number);
-                    break;
-                case 7://удаление данных с заданным ключом
-                    Console::println("Enter key: ");
-                    cin >> action;
-                    tree.remove(action);
-                    break;
-                case 8://формирование списка ключей в дереве в порядке
-                    // обхода узлов по схеме, заданной в варианте задания,
-                    //TODO: print tree like list Lt-T-Rt
-                case 9://дополнительная операция, заданная в варианте задания
-                    //(длина внешнего пути)
-                    //TODO: this task
-                    break;
-                case 10://Запрос прямого итератора, установленного на узел дерева с минимальным ключом begin()
-                    it = tree.begin();
-                    break;
-                case 11:
-                    break;
-                case 12:
-                    break;
-                case 13:
-                    break;
-                case 14:
-                    break;
-                default:
-                    Console::print("Incorrect value!");
-                    break;
+            Console::println("--- START ACTION ---");
+            try {
+                switch (action) {
+                    case 0: //exit
+                    {
+                        running = false;
+                        break;
+                    }
+                    case 1: //tree size
+                    {
+                        Console::println(tree.getSize());
+                        break;
+                    }
+                    case 2: //clear tree
+                    {
+                        tree.clear();
+                        break;
+                    }
+                    case 3: //check empty tree
+                    {
+                        Console::println(tree.isEmpty());
+                        break;
+                    }
+                    case 4: //get data by key
+                    {
+                        Console::println("Enter key: ");
+                        cin >> action;
+                        Console::println(tree.find(action));
+                        break;
+                    }
+                    case 5: //set data by key
+                    {
+                        Console::println("Enter key: ");
+                        cin >> action;
+                        //TODO: setter function in tree
+                        break;
+                    }
+                    case 6: //insert data with key
+                    {
+                        Console::println("Enter value: ");
+                        cin >> number;
+                        Console::println("Enter key: ");
+                        cin >> action;
+                        tree.insert(action, number);
+                        break;
+                    }
+                    case 7: //remove data by key
+                    {
+                        Console::println("Enter key: ");
+                        cin >> action;
+                        tree.remove(action);
+                        break;
+                    }
+                    case 8: //traverse L-T-R
+                    {
+                        //TODO: print tree like list Lt-T-Rt
+                        tree.traverse();
+                        break;
+                    }
+                    case 9: //external way length
+                    {
+                        //(длина внешнего пути)
+                        //TODO: this task
+                        break;
+                    }
+                    case 10: //forward iterator to min key
+                    {
+                        it = tree.begin();
+                        break;
+                    }
+                    case 11: {
+                        break;
+                    }
+                    case 12: {
+                        break;
+                    }
+                    case 13: {
+                        break;
+                    }
+                    case 14: {
+                        break;
+                    }
+                    default: {
+                        Console::print("Incorrect value!");
+                        break;
+                    }
+                }
+            } catch (const runtime_error &ex) {
+                Console::error(ex.what());
+            } catch (const exception &ex) {
+                Console::error(ex.what());
+            } catch (...) {
+                Console::error("UNHANDLED EXCEPTION");
+                running = false;
             }
-            Console::print("\n\n---DONE---\n\n");
-
+            Console::println("--- END ACTION ---");
         }
     }
 
+private:
     static void printActionsList() {
-        Console::println("---MENU---");
-        Console::println("0) EXIT");
-        Console::println("1) Check tree size");//опрос размера дерева
-        Console::println("2) Clear tree");//очистка дерева
-        Console::println("3) Is empty?");//проверка дерева на пустоту
-        Console::println("4) Get by key");//доступ по чтению к данным по ключу
-        Console::println("4) Set by key");//доступ по записи к данным по ключу
-        Console::println("5) Add value by key");//включение данных с заданным ключом
-        Console::println("6) Remove value by key");//удаление данных с заданным ключом,
-        Console::println("7) Print like list");//формирование списка ключей в дереве в порядке
-        // обхода узлов по схеме, заданной в варианте задания
-        Console::println("8) Outside way length");//дополнительная операция, заданная в варианте задания
-        //(длина внешнего пути)
-        Console::println("9) get Iterator ");//запрос прямого итератора,
-        // установленного на узел дерева с минимальным ключом begin(),
-        Console::println("10) get rIterator");//запрос обратного итератора, установленного
-        // на узел дерева с максимальным ключом rbegin(),
-        Console::println("11) get null Iterator");//запрос «неустановленного» прямого итератора end(),
-        Console::println("12) Get null rIterator");   //запрос «неустановленного» обратного итератора rend()
+        Console::println("┌------┬---------------------┐");
+        Console::println("| (0)  | EXIT                |");
+        Console::println("| (1)  | Check tree size     |");
+        Console::println("| (2)  | Clear tree          |");
+        Console::println("| (3)  | Is empty?           |");
+        Console::println("| (4)  | Get by key          |");
+        Console::println("| (4)  | Set by key          |");
+        Console::println("| (5)  | Add value by key    |");
+        Console::println("| (6)  | Remove value by key |");
+        Console::println("| (7)  | Print like list     |");
+        Console::println("| (8)  | Outside way length  |");
+        Console::println("| (9)  | Get Iterator        |");
+        Console::println("| (10) | Get rIterator       |");
+        Console::println("| (11) | Get null Iterator   |");
+        Console::println("| (12) | Get null rIterator  |");
+        Console::println("└------┴---------------------┘");
     }
 
     static void iteratorMenu(Tree<> *tree, Tree<>::Iterator *it) {
