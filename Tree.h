@@ -313,7 +313,9 @@ void Tree<Key, Data>::Node::setRight(Tree::Node *right) {
 
 template<class Key, class Data>
 Tree<Key, Data>::~Tree() {
-    this->clear();
+    if (!this->isEmpty()) {
+        this->clear();
+    }
 }
 
 template<class Key, class Data>
