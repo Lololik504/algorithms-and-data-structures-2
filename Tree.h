@@ -14,6 +14,7 @@ private:
         Data data;
         Node *left;
         Node *right;
+
         explicit Node(Key key, Data data = Data(), Node *left = nullptr, Node *right = nullptr)
                 : key(key), data(data), left(left), right(right) {};
     };
@@ -54,8 +55,12 @@ private:
 
     Node *getParent(Node *node);
 
+    void init();
+
+    void copy(const Node *node);
+
 public:
-    explicit Tree() : root(nullptr), size(0) {};
+    Tree();
 
     Tree(const Tree<Key, Data> &tree);
 
@@ -319,6 +324,35 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::rIterator::getParent() {
 // ################################################
 //                      Tree
 // ################################################
+
+
+template<class Key, class Data>
+Tree<Key, Data>::Tree() {
+    init();
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::init() {
+    this->root = nullptr;
+    this->size = 0;
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::copy(const Node *node) {
+    insert(node->key, node->data);
+    if (node->left) {
+        copy(node->left);
+    }
+    if (node->getRight()) {
+        copy(node->right);
+    }
+}
+
+template<class Key, class Data>
+Tree<Key, Data>::Tree(const Tree<Key, Data> &tree) {
+    init();
+    copy(tree.root);
+}
 
 template<class Key, class Data>
 Tree<Key, Data>::~Tree() {
@@ -684,17 +718,6 @@ void Tree<Key, Data>::getExternalWayLength(Node *node, int &length) {
         getExternalWayLength(node->right, length);
     } else {
         length++;
-    }
-}
-
-template<class Key, class Data>
-Tree<Key, Data>::Tree(const Tree<Key, Data> &tree) {
-    size = 0;
-    Node *node = tree.root;
-    while (node) {
-        break;
-        this->insert(node->key, node->getData());
-        // TODO: do this copy constructor logic
     }
 }
 

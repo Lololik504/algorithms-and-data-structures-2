@@ -3,14 +3,14 @@
 #include "Test.h"
 #include "Menu.h"
 
-//#define TEST
+#define TEST
 
 #ifdef TEST
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
     Console::setLogging();
 
-    int n = 1000;
+    int n = 5000;
 
     Console::debug("START RAND TEST");
     test_rand(n);

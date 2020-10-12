@@ -10,7 +10,7 @@ using namespace std;
 typedef unsigned long long INT_64;
 //переменная и константы генератора LineRand()
 static INT_64 RRand = 15750;
-const INT_64 mRand = (1 << 63) - 1;
+const INT_64 mRand = -1;
 const INT_64 aRand = 6364136223846793005;
 const INT_64 cRand = 1442695040888963407;
 
@@ -64,7 +64,7 @@ void test_rand(int n) {
                 tree.find(LineRand());
                 S += Tree<INT_64, int>::GET_COUNTER();
             }
-            catch (const invalid_argument &ex) {
+            catch (const exception &ex) {
                 S += Tree<INT_64, int>::GET_COUNTER();
             }
         } else //90% успешных операций
@@ -83,7 +83,7 @@ void test_rand(int n) {
                 tree.find(m[rand() % n]);
                 S += Tree<INT_64, int>::GET_COUNTER();
             }
-            catch (const invalid_argument &ex) {
+            catch (const exception &ex) {
                 S += Tree<INT_64, int>::GET_COUNTER();
             }
         }
@@ -137,7 +137,7 @@ void test_ord(int n) {
                 tree.find(k);
                 S += Tree<INT_64, int>::GET_COUNTER();
             }
-            catch (const invalid_argument &ex) {
+            catch (const exception &ex) {
                 S += Tree<INT_64, int>::GET_COUNTER();
             }
         } else //90% успешных операций
@@ -157,7 +157,7 @@ void test_ord(int n) {
                 tree.find(m[rand() % n]);
                 S += Tree<INT_64, int>::GET_COUNTER();
             }
-            catch (const invalid_argument &ex) {
+            catch (const exception &ex) {
                 S += Tree<INT_64, int>::GET_COUNTER();
             }
         }
