@@ -31,7 +31,7 @@ int main() {
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
     Console::setLogging();
-    Console::setDebug(false);
+    Console::setLoggingLevel(LEVELS::DEBUG, false);
 
     Tree<> tree;
     tree.insert(5,2);

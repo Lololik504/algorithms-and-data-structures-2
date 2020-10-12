@@ -85,24 +85,24 @@ void Console::setLogging(bool logging) {
     Console::LOGGING = logging;
 }
 
-void Console::setInfo(bool info) {
-    Console::INFO = info;
-}
-
-void Console::setDebug(bool debug) {
-    Console::DEBUG = debug;
-}
-
-void Console::setWarning(bool warning) {
-    Console::WARNING = warning;
-}
-
-void Console::setSuccess(bool success) {
-    Console::SUCCESS = success;
-}
-
-void Console::setError(bool error) {
-    Console::ERROR = error;
+void Console::setLoggingLevel(LEVELS level, bool logging) {
+    switch (level) {
+        case LEVELS::INFO:
+            Console::INFO = logging;
+            break;
+        case LEVELS::DEBUG:
+            Console::DEBUG = logging;
+            break;
+        case LEVELS::WARNING:
+            Console::WARNING = logging;
+            break;
+        case LEVELS::SUCCESS:
+            Console::SUCCESS = logging;
+            break;
+        case LEVELS::ERROR:
+            Console::ERROR = logging;
+            break;
+    }
 }
 
 void Console::clear() {

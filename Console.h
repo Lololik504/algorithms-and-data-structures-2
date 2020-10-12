@@ -7,6 +7,14 @@
 
 using namespace std;
 
+enum class LEVELS {
+    INFO,
+    DEBUG,
+    WARNING,
+    SUCCESS,
+    ERROR
+};
+
 enum class COLORS {
     DEFAULT,
     RED,
@@ -44,21 +52,21 @@ private:
 
     static const char *PARSE_COLOR(COLORS color = COLORS::DEFAULT);
 
+    static void LOG(LEVELS level, const char *str);
+
+    static void LOG(LEVELS level, int str);
+
+    static void LOG(LEVELS level, double str);
+
+    static void LOG(LEVELS level, bool str);
+
 public:
 
     static void setSystem(SYSTEMS system = SYSTEMS::WINDOWS);
 
     static void setLogging(bool logging = true);
 
-    static void setInfo(bool info = true);
-
-    static void setDebug(bool debug = true);
-
-    static void setWarning(bool warning = true);
-
-    static void setSuccess(bool success = true);
-
-    static void setError(bool error = true);
+    static void setLoggingLevel(LEVELS level, bool logging = true);
 
     static void clear();
 
@@ -117,6 +125,8 @@ public:
     static void success(double str);
 
     static void success(bool str);
+
+
 };
 
 #endif //LAB2_3_CONSOLE_H

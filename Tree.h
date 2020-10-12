@@ -798,7 +798,7 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getPrev(Node *target) {
     if (this->isEmpty() || !target) {
         throw runtime_error("EXCEPTION");
     }
-    if (target->getLeft() != nullptr) {
+    if (target->getLeft()) {
         return this->max(target->getLeft());
     } else {
         return biggerParent(root, target);
@@ -810,7 +810,7 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getNext(Node *target) {
     if (this->isEmpty() || target == nullptr) {
         throw runtime_error("EXCEPTION");
     }
-    if (target->getRight() != nullptr) {
+    if (target->getRight()) {
         return this->min(target->getRight());
     } else {
         return lessParent(root, target);
