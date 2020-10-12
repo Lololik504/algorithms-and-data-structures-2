@@ -52,13 +52,13 @@ private:
 
     static const char *PARSE_COLOR(COLORS color = COLORS::DEFAULT);
 
-    static void LOG(LEVELS level, const char *str);
+    static void LOG(LEVELS level, COLORS COLOR, const char *PREFIX, const char *str);
 
-    static void LOG(LEVELS level, int str);
+    static void LOG(LEVELS level, COLORS COLOR, const char *PREFIX, int str);
 
-    static void LOG(LEVELS level, double str);
+    static void LOG(LEVELS level, COLORS COLOR, const char *PREFIX, double str);
 
-    static void LOG(LEVELS level, bool str);
+    static void LOG(LEVELS level, COLORS COLOR, const char *PREFIX, bool str);
 
 public:
 

@@ -5,7 +5,6 @@
 #include <cmath>
 #include <iostream>
 #include "Tree.h"
-
 using namespace std;
 
 typedef unsigned long long INT_64;
@@ -30,7 +29,6 @@ INT_64 LineRand() {
     y2 = (aRand * y1 + cRand) % mRand;
     RRand = y1 & 0xFFFFFFFF00000000LL ^ (y2 & 0xFFFFFFFF00000000LL) >> 32;
     return RRand;
-
 }
 
 void test_rand(int n) {

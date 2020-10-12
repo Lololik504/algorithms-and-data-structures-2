@@ -77,6 +77,174 @@ const char *Console::PARSE_COLOR(COLORS color) {
     };
 }
 
+void Console::LOG(LEVELS LEVEL, COLORS COLOR, const char *PREFIX, const char *str) {
+    if (!Console::LOGGING)
+        return;
+
+    switch (LEVEL) {
+        case LEVELS::INFO:
+            if (!Console::INFO)
+                return;
+            break;
+        case LEVELS::DEBUG:
+            if (!Console::DEBUG)
+                return;
+            break;
+        case LEVELS::WARNING:
+            if (!Console::WARNING)
+                return;
+            break;
+        case LEVELS::SUCCESS:
+            if (!Console::SUCCESS)
+                return;
+            break;
+        case LEVELS::ERROR:
+            if (!Console::ERROR)
+                return;
+            break;
+    }
+
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(COLOR);
+            cout << PREFIX << str << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
+void Console::LOG(LEVELS LEVEL, COLORS COLOR, const char *PREFIX, int str) {
+    if (!Console::LOGGING)
+        return;
+
+    switch (LEVEL) {
+        case LEVELS::INFO:
+            if (!Console::INFO)
+                return;
+            break;
+        case LEVELS::DEBUG:
+            if (!Console::DEBUG)
+                return;
+            break;
+        case LEVELS::WARNING:
+            if (!Console::WARNING)
+                return;
+            break;
+        case LEVELS::SUCCESS:
+            if (!Console::SUCCESS)
+                return;
+            break;
+        case LEVELS::ERROR:
+            if (!Console::ERROR)
+                return;
+            break;
+    }
+
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(COLOR);
+            cout << PREFIX << str << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
+void Console::LOG(LEVELS LEVEL, COLORS COLOR, const char *PREFIX, double str) {
+    if (!Console::LOGGING)
+        return;
+
+    switch (LEVEL) {
+        case LEVELS::INFO:
+            if (!Console::INFO)
+                return;
+            break;
+        case LEVELS::DEBUG:
+            if (!Console::DEBUG)
+                return;
+            break;
+        case LEVELS::WARNING:
+            if (!Console::WARNING)
+                return;
+            break;
+        case LEVELS::SUCCESS:
+            if (!Console::SUCCESS)
+                return;
+            break;
+        case LEVELS::ERROR:
+            if (!Console::ERROR)
+                return;
+            break;
+    }
+
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(COLOR);
+            cout << PREFIX << str << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
+void Console::LOG(LEVELS LEVEL, COLORS COLOR, const char *PREFIX, bool str) {
+    if (!Console::LOGGING)
+        return;
+
+    switch (LEVEL) {
+        case LEVELS::INFO:
+            if (!Console::INFO)
+                return;
+            break;
+        case LEVELS::DEBUG:
+            if (!Console::DEBUG)
+                return;
+            break;
+        case LEVELS::WARNING:
+            if (!Console::WARNING)
+                return;
+            break;
+        case LEVELS::SUCCESS:
+            if (!Console::SUCCESS)
+                return;
+            break;
+        case LEVELS::ERROR:
+            if (!Console::ERROR)
+                return;
+            break;
+    }
+
+    switch (Console::SYSTEM) {
+        case SYSTEMS::WINDOWS:
+            Console::SET_COLOR(COLOR);
+            cout << PREFIX << (str ? "TRUE" : "FALSE") << endl;
+            Console::SET_COLOR();
+            break;
+        case SYSTEMS::LINUX:
+            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
+            break;
+        case SYSTEMS::MAC:
+            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
+            break;
+    }
+}
+
 void Console::setSystem(SYSTEMS system) {
     Console::SYSTEM = system;
 }
@@ -244,462 +412,82 @@ void Console::println(double str, COLORS color) {
 }
 
 void Console::info(const char *str) {
-    if (!Console::LOGGING || !Console::INFO) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::WHITE;
-    const char PREFIX[] = "[INFO]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::INFO, COLORS::DEFAULT, "[INFO]: ", str);
 }
 
 void Console::info(int str) {
-    if (!Console::LOGGING || !Console::INFO) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::WHITE;
-    const char PREFIX[] = "[INFO]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::INFO, COLORS::DEFAULT, "[INFO]: ", str);
 }
 
 void Console::info(double str) {
-    if (!Console::LOGGING || !Console::INFO) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::WHITE;
-    const char PREFIX[] = "[INFO]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::INFO, COLORS::DEFAULT, "[INFO]: ", str);
 }
 
 void Console::info(bool str) {
-    if (!Console::LOGGING || !Console::INFO) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::WHITE;
-    const char PREFIX[] = "[INFO]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << (str ? "TRUE" : "FALSE") << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::INFO, COLORS::DEFAULT, "[INFO]: ", str);
 }
 
 void Console::debug(const char *str) {
-    if (!Console::LOGGING || !Console::DEBUG) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::BLUE;
-    const char PREFIX[] = "[DEBUG]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::DEBUG, COLORS::BLUE, "[DEBUG]: ", str);
 }
 
 void Console::debug(int str) {
-    if (!Console::LOGGING || !Console::DEBUG) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::BLUE;
-    const char PREFIX[] = "[DEBUG]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::DEBUG, COLORS::BLUE, "[DEBUG]: ", str);
 }
 
 void Console::debug(double str) {
-    if (!Console::LOGGING || !Console::DEBUG) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::BLUE;
-    const char PREFIX[] = "[DEBUG]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::DEBUG, COLORS::BLUE, "[DEBUG]: ", str);
 }
 
 void Console::debug(bool str) {
-    if (!Console::LOGGING || !Console::DEBUG) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::BLUE;
-    const char PREFIX[] = "[DEBUG]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << (str ? "TRUE" : "FALSE") << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::DEBUG, COLORS::BLUE, "[DEBUG]: ", str);
 }
 
 void Console::warning(const char *str) {
-    if (!Console::LOGGING || !Console::WARNING) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::YELLOW;
-    const char PREFIX[] = "[WARNING]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::WARNING, COLORS::YELLOW, "[WARNING]: ", str);
 }
 
 void Console::warning(int str) {
-    if (!Console::LOGGING || !Console::WARNING) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::YELLOW;
-    const char PREFIX[] = "[WARNING]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::WARNING, COLORS::YELLOW, "[WARNING]: ", str);
 }
 
 void Console::warning(double str) {
-    if (!Console::LOGGING || !Console::WARNING) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::YELLOW;
-    const char PREFIX[] = "[WARNING]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::WARNING, COLORS::YELLOW, "[WARNING]: ", str);
 }
 
 void Console::warning(bool str) {
-    if (!Console::LOGGING || !Console::WARNING) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::YELLOW;
-    const char PREFIX[] = "[WARNING]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << (str ? "TRUE" : "FALSE") << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::WARNING, COLORS::YELLOW, "[WARNING]: ", str);
 }
 
 void Console::error(const char *str) {
-    if (!Console::LOGGING || !Console::ERROR) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::RED;
-    const char PREFIX[] = "[ERROR]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::ERROR, COLORS::RED, "[ERROR]: ", str);
 }
 
 void Console::error(int str) {
-    if (!Console::LOGGING || !Console::ERROR) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::RED;
-    const char PREFIX[] = "[ERROR]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::ERROR, COLORS::RED, "[ERROR]: ", str);
 }
 
 void Console::error(double str) {
-    if (!Console::LOGGING || !Console::ERROR) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::RED;
-    const char PREFIX[] = "[ERROR]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::ERROR, COLORS::RED, "[ERROR]: ", str);
 }
 
 void Console::error(bool str) {
-    if (!Console::LOGGING || !Console::ERROR) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::RED;
-    const char PREFIX[] = "[ERROR]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << (str ? "TRUE" : "FALSE") << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::ERROR, COLORS::RED, "[ERROR]: ", str);
 }
 
 void Console::success(const char *str) {
-    if (!Console::LOGGING || !Console::SUCCESS) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::GREEN;
-    const char PREFIX[] = "[SUCCESS]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::SUCCESS, COLORS::GREEN, "[SUCCESS]: ", str);
 }
 
 void Console::success(int str) {
-    if (!Console::LOGGING || !Console::SUCCESS) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::GREEN;
-    const char PREFIX[] = "[SUCCESS]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::SUCCESS, COLORS::GREEN, "[SUCCESS]: ", str);
 }
 
 void Console::success(double str) {
-    if (!Console::LOGGING || !Console::SUCCESS) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::GREEN;
-    const char PREFIX[] = "[SUCCESS]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << str << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << str << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::SUCCESS, COLORS::GREEN, "[SUCCESS]: ", str);
 }
 
 void Console::success(bool str) {
-    if (!Console::LOGGING || !Console::SUCCESS) {
-        return;
-    }
-
-    COLORS COLOR = COLORS::GREEN;
-    const char PREFIX[] = "[SUCCESS]: ";
-
-    switch (Console::SYSTEM) {
-        case SYSTEMS::WINDOWS:
-            Console::SET_COLOR(COLOR);
-            cout << PREFIX << (str ? "TRUE" : "FALSE") << endl;
-            Console::SET_COLOR();
-            break;
-        case SYSTEMS::LINUX:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-        case SYSTEMS::MAC:
-            cout << Console::PARSE_COLOR(COLOR) << PREFIX << (str ? "TRUE" : "FALSE") << Console::PARSE_COLOR() << endl;
-            break;
-    }
+    Console::LOG(LEVELS::SUCCESS, COLORS::GREEN, "[SUCCESS]: ", str);
 }
 

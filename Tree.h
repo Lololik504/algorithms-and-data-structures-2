@@ -9,31 +9,13 @@ template<class Key = int, class Data = int>
 class Tree {
 private:
     class Node {
-    private:
+    public:
         Key key;
         Data data;
         Node *left;
         Node *right;
-
-    public:
         explicit Node(Key key, Data data = Data(), Node *left = nullptr, Node *right = nullptr)
                 : key(key), data(data), left(left), right(right) {};
-
-        Key getKey() const;
-
-        void setKey(Key key);
-
-        Data getData() const;
-
-        void setData(Data data);
-
-        Node *getLeft() const;
-
-        void setLeft(Node *left);
-
-        Node *getRight() const;
-
-        void setRight(Node *right);
     };
 
     Node *root;
@@ -51,25 +33,6 @@ private:
     static int COUNTER;
 
     static void INCREMENT_COUNTER();
-
-public:
-    explicit Tree() : root(nullptr), size(0) {};
-
-    Tree(const Tree<Key, Data> &tree);
-
-    void init();
-
-    void copy(const Tree &tree);
-
-    void copy(const Node* node);
-
-    ~Tree();
-
-    static void NULLIFY_COUNTER();
-
-    static int GET_COUNTER();
-
-    int getExternalWayLength();
 
     Node *getNodeByKey(Key key);
 
@@ -89,53 +52,49 @@ public:
 
     Node *getNext(Node *target);
 
-    bool insert(Key key, Data data = Data());
-
     Node *getParent(Node *node);
+
+public:
+    explicit Tree() : root(nullptr), size(0) {};
+
+    Tree(const Tree<Key, Data> &tree);
+
+    ~Tree();
+
+    static void NULLIFY_COUNTER();
+
+    static int GET_COUNTER();
+
+    int getExternalWayLength();
+
+    bool insert(Key key, Data data = Data());
 
     Data find(Key key);
 
     bool remove(Key key);
 
-    bool setData(Key key, Data data);
+    bool set(Key key, Data data);
 
     void traverse();
 
     void print();
 
-    bool isEmpty();
+    bool empty();
 
     int getSize();
 
     void clear();
 
-    Node *getRoot() const;
 
     class Iterator {
     private:
         Tree *tree;
         Node *node;
 
-    public:
-        explicit Iterator(Tree<Key, Data> *tree = nullptr, Node *node = nullptr);
-
-        void setTree(Tree *tree);
-
-        bool hasNode();
-
-        bool hasTree();
-
-        Key getKey();
-
-        Data getData();
-
         Node *getParent();
 
-        void toMinimalKey();
-
-        void toMaximalKey();
-
-        bool setData(Data data);
+    public:
+        explicit Iterator(Tree<Key, Data> *tree = nullptr, Node *node = nullptr);
 
         bool operator++(int);
 
@@ -145,7 +104,7 @@ public:
 
         bool operator!=(Iterator it);
 
-        Node *operator*();
+        Data &operator*();
 
     };
 
@@ -154,26 +113,10 @@ public:
         Tree *tree;
         Node *node;
 
-    public:
-        explicit rIterator(Tree<Key, Data> *tree = nullptr, Node *node = nullptr);
-
-        void setTree(Tree *tree);
-
-        bool hasNode();
-
-        bool hasTree();
-
-        Key getKey();
-
-        Data getData();
-
         Node *getParent();
 
-        void toMinimalKey();
-
-        void toMaximalKey();
-
-        bool setData(Data data);
+    public:
+        explicit rIterator(Tree<Key, Data> *tree = nullptr, Node *node = nullptr);
 
         bool operator++(int);
 
@@ -183,7 +126,7 @@ public:
 
         bool operator!=(rIterator it);
 
-        Node *operator*();
+        Data &operator*();
 
     };
 
@@ -230,116 +173,71 @@ Tree<Key, Data>::Iterator::Iterator(Tree<Key, Data> *tree, Node *node) {
 }
 
 template<class Key, class Data>
-void Tree<Key, Data>::Iterator::setTree(Tree *tree) {
-    this->tree = tree;
-}
-
-template<class Key, class Data>
-Data Tree<Key, Data>::Iterator::getData() {
-    if (!this->hasNode()) {
-        throw runtime_error("Iterator has no node");
-    }
-    return node->getData();
-}
-
-template<class Key, class Data>
-bool Tree<Key, Data>::Iterator::hasNode() {
-    return this->node;
-}
-
-template<class Key, class Data>
 bool Tree<Key, Data>::Iterator::operator++(int) {
-    if (!this->hasNode()) {
+    if (!node)
         return false;
-    }
-    this->node = tree->getNext(this->node);
-    return this->node;
-}
 
-template<class Key, class Data>
-bool Tree<Key, Data>::Iterator::operator--(int) {
-    if (!this->hasNode()) {
-        return false;
-    }
-    this->node = tree->getPrev(this->node);
-    return this->node;
-}
-
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::Iterator::operator*() {
+    node = tree->getNext(node);
     return node;
 }
 
 template<class Key, class Data>
-bool Tree<Key, Data>::Iterator::setData(Data data) {
-    if (!this->hasNode()) {
+bool Tree<Key, Data>::Iterator::operator--(int) {
+    if (!node)
         return false;
-    }
-    this->node->setData(data);
-    return true;
+
+    node = tree->getPrev(node);
+    return node;
 }
 
 template<class Key, class Data>
+Data &Tree<Key, Data>::Iterator::operator*() {
+    if (!node)
+        throw exception();
+
+    return node->data;
+}
+
+
+template<class Key, class Data>
 bool Tree<Key, Data>::Iterator::operator==(Iterator it) {
-    return this->node == it.node;
+    return node == it.node;
 }
 
 template<class Key, class Data>
 bool Tree<Key, Data>::Iterator::operator!=(Iterator it) {
-    return this->node != it.node;
+    return node != it.node;
 }
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::Iterator::getParent() {
-    if (this->node == this->tree->getRoot()) {
+    if (node == tree->root)
         return nullptr;
-    }
-    if (!this->node) {
-        throw runtime_error("Iterator has no node!");
-    }
+
+    if (!node)
+        throw exception();
+
     Node *next = nullptr;
-    Node *current = this->tree->getRoot();
-    if (this->node->getKey() > current->getKey()) {
-        next = current->getRight();
-    }
-    if (this->node->getKey() < current->getKey()) {
-        next = current->getLeft();
-    }
-    while (next != this->node) {
+    Node *current = tree->root;
+
+    if (node->key > current->key)
+        next = current->right;
+
+    if (node->key < current->key)
+        next = current->left;
+
+    while (next != node) {
         current = next;
-        if (this->node->getKey() > current->getKey()) {
-            next = current->getRight();
+        if (node->key > current->key) {
+            next = current->right;
             continue;
         }
-        if (this->node->getKey() < current->getKey()) {
-            next = current->getLeft();
+        if (node->key < current->key) {
+            next = current->left;
             continue;
         }
     }
     return current;
-}
-
-template<class Key, class Data>
-Key Tree<Key, Data>::Iterator::getKey() {
-    if (!this->hasNode()) {
-        throw runtime_error("Iterator has no node");
-    }
-    return node->getKey();
-}
-
-template<class Key, class Data>
-bool Tree<Key, Data>::Iterator::hasTree() {
-    return this->tree;
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::Iterator::toMinimalKey() {
-    this->node = tree->getNodeWithMinimalKey();
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::Iterator::toMaximalKey() {
-    this->node = tree->getNodeWithMaximalKey();
 }
 
 // ################################################
@@ -353,160 +251,69 @@ Tree<Key, Data>::rIterator::rIterator(Tree<Key, Data> *tree, Node *node) {
 }
 
 template<class Key, class Data>
-void Tree<Key, Data>::rIterator::setTree(Tree<Key, Data> *tree) {
-    this->tree = tree;
-}
-
-template<class Key, class Data>
-Data Tree<Key, Data>::rIterator::getData() {
-    if (!this->hasNode()) {
-        throw runtime_error("Iterator has no node");
-    }
-    return node->getData();
-}
-
-template<class Key, class Data>
-bool Tree<Key, Data>::rIterator::hasNode() {
-    return this->node;
-}
-
-template<class Key, class Data>
 bool Tree<Key, Data>::rIterator::operator++(int) {
-    if (!this->hasNode()) {
+    if (!node)
         return false;
-    }
-    this->node = tree->getPrev(this->node);
+
+    node = tree->getPrev(node);
     return this->node;
 }
 
 template<class Key, class Data>
 bool Tree<Key, Data>::rIterator::operator--(int) {
-    if (!this->hasNode()) {
+    if (!node)
         return false;
-    }
-    this->node = tree->getNext(this->node);
-    return this->node;
-}
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::rIterator::operator*() {
+    node = tree->getNext(node);
     return node;
 }
 
 template<class Key, class Data>
-bool Tree<Key, Data>::rIterator::setData(Data data) {
-    if (!this->hasNode()) {
-        return false;
-    }
-    this->node->setData(data);
-    return true;
+Data &Tree<Key, Data>::rIterator::operator*() {
+    if (!node)
+        throw exception();
+
+    return node->data;
 }
 
 template<class Key, class Data>
 bool Tree<Key, Data>::rIterator::operator==(rIterator it) {
-    return this->node == it.node;
+    return node == it.node;
 }
 
 template<class Key, class Data>
 bool Tree<Key, Data>::rIterator::operator!=(rIterator it) {
-    return this->node != it.node;
+    return node != it.node;
 }
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::rIterator::getParent() {
-    if (this->node == this->tree->getRoot()) {
+    if (node == tree->root)
         return nullptr;
-    }
-    if (!this->node) {
-        throw runtime_error("Iterator has no node!");
-    }
+
+    if (!node)
+        throw exception();
+
     Node *next = nullptr;
-    Node *current = this->tree->getRoot();
-    if (this->node->getKey() > current->getKey()) {
-        next = current->getRight();
+    Node *current = tree->root;
+    if (node->key > current->key) {
+        next = current->right;
     }
-    if (this->node->getKey() < current->getKey()) {
-        next = current->getLeft();
+    if (node->key < current->key) {
+        next = current->left;
     }
-    while (next != this->node) {
+    while (next != node) {
         current = next;
-        if (this->node->getKey() > current->getKey()) {
-            next = current->getRight();
+        if (node->key > current->key) {
+            next = current->right;
             continue;
         }
-        if (this->node->getKey() < current->getKey()) {
-            next = current->getLeft();
+        if (node->key < current->key) {
+            next = current->left;
             continue;
         }
     }
     return current;
-}
-
-template<class Key, class Data>
-Key Tree<Key, Data>::rIterator::getKey() {
-    if (!this->hasNode()) {
-        throw runtime_error("Iterator has no node");
-    }
-    return node->getKey();
-}
-
-template<class Key, class Data>
-bool Tree<Key, Data>::rIterator::hasTree() {
-    return this->tree;
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::rIterator::toMinimalKey() {
-    this->node = tree->getNodeWithMinimalKey();
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::rIterator::toMaximalKey() {
-    this->node = tree->getNodeWithMaximalKey();
-}
-
-// ################################################
-//                      Node
-// ################################################
-
-template<class Key, class Data>
-Key Tree<Key, Data>::Node::getKey() const {
-    return key;
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::Node::setKey(Key key) {
-    this->key = key;
-}
-
-template<class Key, class Data>
-Data Tree<Key, Data>::Node::getData() const {
-    return data;
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::Node::setData(Data data) {
-    this->data = data;
-}
-
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::Node::getLeft() const {
-    return left;
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::Node::setLeft(Node *left) {
-    this->left = left;
-}
-
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::Node::getRight() const {
-    return right;
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::Node::setRight(Node *right) {
-    this->right = right;
 }
 
 // ################################################
@@ -515,53 +322,52 @@ void Tree<Key, Data>::Node::setRight(Node *right) {
 
 template<class Key, class Data>
 Tree<Key, Data>::~Tree() {
-    if (!this->isEmpty()) {
-        this->clear();
-    }
+    if (!empty())
+        clear();
 }
 
 template<class Key, class Data>
 void Tree<Key, Data>::clear(Node *node) {
     if (node) {
-        this->clear(node->getLeft());
-        this->clear(node->getRight());
+        clear(node->left);
+        clear(node->right);
         delete node;
-        this->size--;
+        size--;
     }
 }
 
 template<class Key, class Data>
 void Tree<Key, Data>::clear() {
-    this->clear(this->root);
-    this->root = nullptr;
+    clear(root);
+    root = nullptr;
 }
 
 template<class Key, class Data>
 bool Tree<Key, Data>::insert(Key key, Data data) {
-    if (!this->root) {
-        this->root = new Node(key, data);
+    if (!root) {
+        root = new Node(key, data);
     } else {
-        Node *node = this->root;
+        Node *node = root;
         Node *nodeBefore = nullptr;
         while (node) {
             nodeBefore = node;
             Tree<Key, Data>::INCREMENT_COUNTER();
-            if (key < node->getKey()) {
-                node = node->getLeft();
-            } else if (key > node->getKey()) {
-                node = node->getRight();
+            if (key < node->key) {
+                node = node->left;
+            } else if (key > node->key) {
+                node = node->right;
             } else {
                 return false;
             }
         }
         node = new Node(key, data);
-        if (key < nodeBefore->getKey()) {
-            nodeBefore->setLeft(node);
+        if (key < nodeBefore->key) {
+            nodeBefore->left = node;
         } else {
-            nodeBefore->setRight(node);
+            nodeBefore->right = node;
         }
     }
-    this->size++;
+    size++;
     return true;
 }
 
@@ -569,36 +375,36 @@ template<class Key, class Data>
 void Tree<Key, Data>::traverse(Node *node) {
     if (node) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        this->traverse(node->getLeft());
-        Console::print(node->getKey());
+        traverse(node->left);
+        Console::print(node->key);
         Console::print(" ");
-        this->traverse(node->getRight());
+        traverse(node->right);
     }
 }
 
 template<class Key, class Data>
 void Tree<Key, Data>::traverse() {
-    this->traverse(this->root);
+    traverse(root);
     Console::println();
 }
 
 template<class Key, class Data>
 void Tree<Key, Data>::print() {
-    this->print(this->root, 0);
+    print(root, 0);
 }
 
 template<class Key, class Data>
 void Tree<Key, Data>::print(Node *node, int lvl) {
     if (node) {
-        this->print(node->getRight(), lvl + 1);
+        print(node->right, lvl + 1);
         for (int i = 0; i < lvl; ++i) {
             Console::print("    ");
         }
-        Console::print(node->getKey(), static_cast<COLORS>(lvl % 8)); // TODO: auto countering of COLORS length
+        Console::print(node->key, static_cast<COLORS>(lvl % 8)); // TODO: auto countering of COLORS length
         Console::print("(", static_cast<COLORS>(lvl % 8));
-        Console::print(node->getData(), static_cast<COLORS>(lvl % 8));
+        Console::print(node->data, static_cast<COLORS>(lvl % 8));
         Console::println(")", static_cast<COLORS>(lvl % 8));
-        this->print(node->getLeft(), lvl + 1);
+        print(node->left, lvl + 1);
     } else {
         for (int i = 0; i < lvl; ++i) {
             Console::print("    ");
@@ -608,96 +414,97 @@ void Tree<Key, Data>::print(Node *node, int lvl) {
 }
 
 template<class Key, class Data>
-bool Tree<Key, Data>::isEmpty() {
+bool Tree<Key, Data>::empty() {
     return this->size == 0;
 }
 
 template<class Key, class Data>
 int Tree<Key, Data>::getSize() {
-    return this->size;
+    return size;
 }
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeByKey(Key key) {
-    Node *node = this->root;
-    while (node && key != node->getKey()) {
+    Node *node = root;
+
+    while (node && key != node->key) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        if (key < node->getKey()) {
-            node = node->getLeft();
-        } else {
-            node = node->getRight();
-        }
+        if (key < node->key)
+            node = node->left;
+        else
+            node = node->right;
     }
-    if (!node) {
-        throw invalid_argument("KEY ERROR");
-    }
+
+    if (!node)
+        throw exception();
+
     return node;
 }
 
 template<class Key, class Data>
 Data Tree<Key, Data>::find(Key key) {
-    Node *node = getNodeByKey(key);
-    return node->getData();
+    return getNodeByKey(key)->data;
 }
 
 template<class Key, class Data>
 bool Tree<Key, Data>::remove(Key key) {
-    Node *cur = this->root;
+    Node *cur = root;
     Node *prev = nullptr;
-    while (cur && key != cur->getKey()) {
+
+    while (cur && key != cur->key) {
         Tree<Key, Data>::INCREMENT_COUNTER();
         prev = cur;
-        if (key < cur->getKey())
-            cur = cur->getLeft();
+        if (key < cur->key)
+            cur = cur->left;
         else
-            cur = cur->getRight();
+            cur = cur->right;
     }
+
     if (!cur)
         return false;
 
     Node *x = nullptr;
     Node *y = nullptr;
 
-    if (!cur->getLeft() && !cur->getRight()) {
+    if (!cur->left && !cur->right) {
         x = nullptr;
-    } else if (!cur->getLeft()) {
+    } else if (!cur->left) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        x = cur->getRight();
-    } else if (!cur->getRight()) {
+        x = cur->right;
+    } else if (!cur->right) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        x = cur->getLeft();
+        x = cur->left;
     } else {
         prev = cur;
         Tree<Key, Data>::INCREMENT_COUNTER();
-        cur = cur->getRight();
-        cur = this->min(cur);
-        y = this->getParent(cur);
-        prev->setKey(cur->getKey());
-        prev->setData(cur->getData());
-        if (y != prev)
-            y->setLeft(nullptr);
-        else
-            prev->setRight(nullptr);
-    }
-    if (!prev) {
-        this->root = x;
-    } else if (!y) {
-        if (cur->getKey() < prev->getKey()) {
-            prev->setLeft(x);
-        } else {
-            prev->setRight(x);
+
+        y = cur->right;
+        while (y->left) {
+            prev = y;
+            y = y->left;
         }
+        cur->key = y->key;
+        cur->data = y->data;
+        x = y->right;
+        cur = y;
     }
+
+    if (!prev) {
+        root = x;
+    } else if (cur->key < prev->key) {
+        prev->left = x;
+    } else {
+        prev->right = x;
+    }
+
     delete cur;
+    this->size--;
     return true;
 }
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Iterator Tree<Key, Data>::begin() {
-    if (this->isEmpty()) {
-        return Tree<Key, Data>::Iterator(this);
-    }
-    return Tree<Key, Data>::Iterator(this, this->getNodeWithMinimalKey());
+    return Tree<Key, Data>::Iterator(this, getNodeWithMinimalKey());
 }
 
 template<class Key, class Data>
@@ -707,10 +514,7 @@ typename Tree<Key, Data>::Iterator Tree<Key, Data>::end() {
 
 template<class Key, class Data>
 typename Tree<Key, Data>::rIterator Tree<Key, Data>::rbegin() {
-    if (this->isEmpty()) {
-        return Tree<Key, Data>::rIterator(this);
-    }
-    return Tree<Key, Data>::rIterator(this, this->getNodeWithMaximalKey());
+    return Tree<Key, Data>::rIterator(this, getNodeWithMaximalKey());
 }
 
 template<class Key, class Data>
@@ -719,37 +523,32 @@ typename Tree<Key, Data>::rIterator Tree<Key, Data>::rend() {
 }
 
 template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::getRoot() const {
-    return root;
-}
-
-template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getParent(Node *node) {
-    if (node == this->getRoot()) {
+    if (node == root)
         return nullptr;
-    }
-    if (!node) {
-        throw runtime_error("Iterator has no node!");
-    }
+
+    if (!node)
+        throw exception();
+
     Node *next = nullptr;
-    Node *current = this->getRoot();
-    if (node->getKey() > current->getKey()) {
+    Node *current = root;
+    if (node->key > current->key) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        next = current->getRight();
+        next = current->right;
     }
-    if (node->getKey() < current->getKey()) {
+    if (node->key < current->key) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        next = current->getLeft();
+        next = current->left;
     }
     while (next != node) {
         Tree<Key, Data>::INCREMENT_COUNTER();
         current = next;
-        if (node->getKey() > current->getKey()) {
-            next = current->getRight();
+        if (node->key > current->key) {
+            next = current->right;
             continue;
         }
-        if (node->getKey() < current->getKey()) {
-            next = current->getLeft();
+        if (node->key < current->key) {
+            next = current->left;
             continue;
         }
     }
@@ -760,9 +559,10 @@ template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::max(Node *node) {
     if (!node)
         return nullptr;
-    while (node->getRight()) {
+
+    while (node->right) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        node = node->getRight();
+        node = node->right;
     }
     return node;
 }
@@ -771,15 +571,16 @@ template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::biggerParent(Node *current, Node *target) {
     if (current == target)
         return nullptr;
+
     Tree<Key, Data>::INCREMENT_COUNTER();
-    if (target->getKey() > current->getKey()) {
-        Node *returnNode = biggerParent(current->getRight(), target);
+    if (target->key > current->key) {
+        Node *returnNode = biggerParent(current->right, target);
         if (!returnNode)
             return current;
         else
             return returnNode;
     } else {
-        return biggerParent(current->getLeft(), target);
+        return biggerParent(current->left, target);
     }
 }
 
@@ -787,25 +588,26 @@ template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::lessParent(Node *current, Node *target) {
     if (current == target)
         return nullptr;
+
     Tree<Key, Data>::INCREMENT_COUNTER();
-    if (target->getKey() < current->getKey()) {
-        Node *returnNode = lessParent(current->getLeft(), target);
+    if (target->key < current->key) {
+        Node *returnNode = lessParent(current->left, target);
         if (!returnNode)
             return current;
         else
             return returnNode;
     } else {
-        return lessParent(current->getRight(), target);
+        return lessParent(current->right, target);
     }
 }
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getPrev(Node *target) {
-    if (this->isEmpty() || !target) {
-        throw runtime_error("EXCEPTION");
-    }
-    if (target->getLeft()) {
-        return this->max(target->getLeft());
+    if (empty() || !target)
+        throw exception();
+
+    if (target->left) {
+        return max(target->left);
     } else {
         return biggerParent(root, target);
     }
@@ -813,11 +615,11 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getPrev(Node *target) {
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getNext(Node *target) {
-    if (this->isEmpty() || target == nullptr) {
-        throw runtime_error("EXCEPTION");
-    }
-    if (target->getRight()) {
-        return this->min(target->getRight());
+    if (empty() || !target)
+        throw exception();
+
+    if (target->right) {
+        return min(target->right);
     } else {
         return lessParent(root, target);
     }
@@ -827,39 +629,41 @@ template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::min(Node *node) {
     if (!node)
         return nullptr;
-    while (node->getLeft()) {
+
+    while (node->left) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        node = node->getLeft();
+        node = node->left;
     }
     return node;
 }
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMinimalKey() {
-    Node *node = this->root;
-    while (node->getLeft()) {
+    Node *node = root;
+
+    while (node && node->left) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        node = node->getLeft();
+        node = node->left;
     }
     return node;
 }
 
 template<class Key, class Data>
 typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMaximalKey() {
-    Node *node = this->root;
-    while (node->getRight()) {
+    Node *node = root;
+    while (node && node->right) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        node = node->getRight();
+        node = node->right;
     }
     return node;
 }
 
 template<class Key, class Data>
-bool Tree<Key, Data>::setData(Key key, Data data) {
+bool Tree<Key, Data>::set(Key key, Data data) {
     try {
-        Node *node = this->getNodeByKey(key);
-        node->setData(data);
-    } catch (const invalid_argument &ex) {
+        Node *node = getNodeByKey(key);
+        node->data = data;
+    } catch (const exception &ex) {
         return false;
     }
     return true;
@@ -868,7 +672,7 @@ bool Tree<Key, Data>::setData(Key key, Data data) {
 template<class Key, class Data>
 int Tree<Key, Data>::getExternalWayLength() {
     int length = 0;
-    this->getExternalWayLength(this->root, length);
+    getExternalWayLength(root, length);
     return length;
 }
 
@@ -876,8 +680,8 @@ template<class Key, class Data>
 void Tree<Key, Data>::getExternalWayLength(Node *node, int &length) {
     if (node) {
         Tree<Key, Data>::INCREMENT_COUNTER();
-        this->getExternalWayLength(node->getLeft(), length);
-        this->getExternalWayLength(node->getRight(), length);
+        getExternalWayLength(node->left, length);
+        getExternalWayLength(node->right, length);
     } else {
         length++;
     }
@@ -885,29 +689,12 @@ void Tree<Key, Data>::getExternalWayLength(Node *node, int &length) {
 
 template<class Key, class Data>
 Tree<Key, Data>::Tree(const Tree<Key, Data> &tree) {
-    this->init();
-    this->copy(tree);
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::init() {
-    this->root = nullptr;
-    this->size = 0;
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::copy(const Tree &tree) {
-    this->copy(tree.root);
-}
-
-template<class Key, class Data>
-void Tree<Key, Data>::copy(const Node *node) {
-    this->insert(node->getKey(),node->getData());
-    if (node->getLeft()){
-        this->copy(node->getLeft());
-    }
-    if (node->getRight()){
-        this->copy(node->getRight());
+    size = 0;
+    Node *node = tree.root;
+    while (node) {
+        break;
+        this->insert(node->key, node->getData());
+        // TODO: do this copy constructor logic
     }
 }
 
