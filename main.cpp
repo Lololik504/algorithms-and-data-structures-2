@@ -3,7 +3,7 @@
 #include "Test.h"
 #include "Menu.h"
 
-#define TEST
+#define TES
 
 #ifdef TEST
 int main() {
@@ -40,7 +40,11 @@ int main() {
     tree.insert(4,2);
     tree.insert(7,2);
     tree.insert(6,2);
-    Menu<>::startMenu(tree);
+
+    Tree<> tree2(tree);
+
+//    tree.print();
+    tree2.print();
 
     return 0;
 }

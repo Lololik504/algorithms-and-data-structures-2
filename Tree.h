@@ -57,6 +57,12 @@ public:
 
     Tree(const Tree<Key, Data> &tree);
 
+    void init();
+
+    void copy(const Tree &tree);
+
+    void copy(const Node* node);
+
     ~Tree();
 
     static void NULLIFY_COUNTER();
@@ -879,12 +885,29 @@ void Tree<Key, Data>::getExternalWayLength(Node *node, int &length) {
 
 template<class Key, class Data>
 Tree<Key, Data>::Tree(const Tree<Key, Data> &tree) {
+    this->init();
+    this->copy(tree);
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::init() {
+    this->root = nullptr;
     this->size = 0;
-    Node *node = tree.getRoot();
-    while (node) {
-        break;
-        this->insert(node->getKey(), node->getData());
-        // TODO: do this copy constructor logic
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::copy(const Tree &tree) {
+    this->copy(tree.root);
+}
+
+template<class Key, class Data>
+void Tree<Key, Data>::copy(const Node *node) {
+    this->insert(node->getKey(),node->getData());
+    if (node->getLeft()){
+        this->copy(node->getLeft());
+    }
+    if (node->getRight()){
+        this->copy(node->getRight());
     }
 }
 
