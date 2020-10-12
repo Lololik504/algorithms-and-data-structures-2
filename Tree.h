@@ -61,7 +61,7 @@ public:
 
     void copy(const Tree &tree);
 
-    void copy(const Node* node);
+    void copy(const Node *node);
 
     ~Tree();
 
@@ -652,9 +652,13 @@ bool Tree<Key, Data>::remove(Key key) {
         else
             cur = cur->getRight();
     }
-    if (!cur)
+    if (!cur) {
+//        Console::debug("CANT DELETE");
+//        Console::debug((int) key);
         return false;
+    }
 
+//    prev = nullptr;
     Node *x = nullptr;
     Node *y = nullptr;
 
@@ -669,25 +673,24 @@ bool Tree<Key, Data>::remove(Key key) {
     } else {
         prev = cur;
         Tree<Key, Data>::INCREMENT_COUNTER();
-        cur = cur->getRight();
-        cur = this->min(cur);
-        y = this->getParent(cur);
-        prev->setKey(cur->getKey());
-        prev->setData(cur->getData());
-        if (y != prev)
-            y->setLeft(nullptr);
-        else
-            prev->setRight(nullptr);
+        y = cur->getRight();
+        while (y->getLeft()) {
+            prev = y;
+            y = y->getLeft();
+        }
+        cur->setKey(y->getKey());
+        cur->setData(y->getData());
+        x = y->getRight();
+        cur = y;
     }
     if (!prev) {
         this->root = x;
-    } else if (!y) {
-        if (cur->getKey() < prev->getKey()) {
-            prev->setLeft(x);
-        } else {
-            prev->setRight(x);
-        }
-    }
+    } else if (cur->getKey() < prev->getKey())
+        prev->setLeft(x);
+    else
+        prev->setRight(x);
+
+    this->size--;
     delete cur;
     return true;
 }
@@ -902,11 +905,11 @@ void Tree<Key, Data>::copy(const Tree &tree) {
 
 template<class Key, class Data>
 void Tree<Key, Data>::copy(const Node *node) {
-    this->insert(node->getKey(),node->getData());
-    if (node->getLeft()){
+    this->insert(node->getKey(), node->getData());
+    if (node->getLeft()) {
         this->copy(node->getLeft());
     }
-    if (node->getRight()){
+    if (node->getRight()) {
         this->copy(node->getRight());
     }
 }

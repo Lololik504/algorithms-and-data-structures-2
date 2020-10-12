@@ -3,7 +3,7 @@
 #include "Test.h"
 #include "Menu.h"
 
-#define TES
+#define TEST
 
 #ifdef TEST
 int main() {
@@ -31,20 +31,32 @@ int main() {
 int main() {
     Console::setSystem(SYSTEMS::LINUX);
     Console::setLogging();
-    Console::setLoggingLevel(LEVELS::DEBUG, false);
+    Console::setLoggingLevel(LEVELS::DEBUG, true);
+    srand(5);
 
-    Tree<> tree;
-    tree.insert(5,2);
-    tree.insert(3,2);
-    tree.insert(2,2);
-    tree.insert(4,2);
-    tree.insert(7,2);
-    tree.insert(6,2);
+    Tree<int, int> tree;
 
-    Tree<> tree2(tree);
+    const int n = 20;
+    int *keys = new int[n];
+    for (int i = 0; i < n; i++) {
+        keys[i] = static_cast<int>(rand() % 400000000);
+        tree.insert(keys[i], 1);
+    }
+    tree.print();
+    for (int i = 0; i < n; i++) {
+        Console::info(keys[i]);
+        tree.remove(keys[i]);
 
-//    tree.print();
-    tree2.print();
+        tree.print();
+        Console::info("#############################################################");
+    }
+//    Menu<> menu;
+//    menu.startMenu(tree);
+
+//    Tree<> tree2(tree);
+
+    tree.print();
+//    tree2.print();
 
     return 0;
 }
