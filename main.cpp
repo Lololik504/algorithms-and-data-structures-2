@@ -1,9 +1,9 @@
 #include "Console.h"
-#include "Tree.h"
-#include "Test.h"
+#include "RBTree.h"
+//#include "Test.h"
 #include "Menu.h"
 
-#define TEST
+//#define TEST
 
 #ifdef TEST
 int main() {
@@ -30,15 +30,23 @@ int main() {
     Console::setLogging();
     Console::setLoggingLevel(LEVELS::DEBUG, true);
 
-    Tree<int, int> tree;
+    srand(time(nullptr));
+
+    Tree<> *tree = new RBTree<>();
+
 
     for (int i = 0; i < 10; ++i) {
-        tree.insert(rand() % 100, rand() % 100);
+        tree->insert(static_cast<int>(rand() % 100), static_cast<int>(rand() % 100));
     }
 
+    tree->insert(-5, -5);
 
-    Menu<int, int>::startMenu(tree);
+    Console::debug(tree->find(-5));
 
+    tree->print();
+
+//    Menu<int, int>::startMenu(tree);
+    delete tree;
     return 0;
 }
 

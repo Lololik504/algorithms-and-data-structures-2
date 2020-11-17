@@ -23,7 +23,8 @@ enum class COLORS {
     YELLOW,
     MAGNETA,
     CYAN,
-    WHITE
+    WHITE,
+    BLACK
 };
 
 enum class SYSTEMS {

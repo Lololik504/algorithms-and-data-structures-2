@@ -10,4 +10,4 @@ add_executable(algorithms_and_data_structures_2_3
         Console.h
         main.cpp
         Tree.h
-        Menu.h Test.h)
+        Menu.h Test.h RBTree.h)

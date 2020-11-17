@@ -5,25 +5,30 @@
 #include <stack>
 #include <cmath>
 
-template<class Key = int, class Data = int>
+template<class Key = int, class Value = int>
 class Tree {
-private:
+protected:
     class Node {
     public:
         Key key;
-        Data data;
+        Value value;
         Node *left;
         Node *right;
 
-        explicit Node(Key key, Data data = Data(), Node *left = nullptr, Node *right = nullptr)
-                : key(key), data(data), left(left), right(right) {};
+        explicit Node(
+            Key key,
+            Value value = Value(),
+            Node *left = nullptr,
+            Node *right = nullptr
+        ) : key(key), value(value), left(left), right(right) {};
+
     };
 
     Node *root;
 
     int size;
 
-    void print(Node *node, int lvl);
+    virtual void print(Node *node, int lvl);
 
     void traverse(Node *node);
 
@@ -62,9 +67,9 @@ private:
 public:
     Tree();
 
-    Tree(const Tree<Key, Data> &tree);
+    Tree(const Tree<Key, Value> &tree);
 
-    ~Tree();
+    virtual ~Tree();
 
     static void NULLIFY_COUNTER();
 
@@ -72,13 +77,13 @@ public:
 
     int getExternalWayLength();
 
-    bool insert(Key key, Data data = Data());
+    virtual bool insert(Key key, Value value);
 
-    Data find(Key key);
+    Value find(Key key);
 
-    bool remove(Key key);
+    virtual bool remove(Key key);
 
-    bool set(Key key, Data data);
+    bool set(Key key, Value value);
 
     void traverse();
 
@@ -90,6 +95,7 @@ public:
 
     void clear();
 
+    Node * getRoot();
 
     class Iterator {
     private:
@@ -99,7 +105,7 @@ public:
         Node *getParent();
 
     public:
-        explicit Iterator(Tree<Key, Data> *tree = nullptr, Node *node = nullptr);
+        explicit Iterator(Tree<Key, Value> *tree = nullptr, Node *node = nullptr);
 
         bool operator++(int);
 
@@ -109,7 +115,7 @@ public:
 
         bool operator!=(Iterator it);
 
-        Data &operator*();
+        Value &operator*();
 
     };
 
@@ -121,7 +127,7 @@ public:
         Node *getParent();
 
     public:
-        explicit rIterator(Tree<Key, Data> *tree = nullptr, Node *node = nullptr);
+        explicit rIterator(Tree<Key, Value> *tree = nullptr, Node *node = nullptr);
 
         bool operator++(int);
 
@@ -131,7 +137,7 @@ public:
 
         bool operator!=(rIterator it);
 
-        Data &operator*();
+        Value &operator*();
 
     };
 
@@ -149,36 +155,36 @@ public:
 
 };
 
-template<class Key, class Data>
-int Tree<Key, Data>::COUNTER = 0;
+template<class Key, class Value>
+int Tree<Key, Value>::COUNTER = 0;
 
-template<class Key, class Data>
-void Tree<Key, Data>::NULLIFY_COUNTER() {
-    Tree<Key, Data>::COUNTER = 0;
+template<class Key, class Value>
+void Tree<Key, Value>::NULLIFY_COUNTER() {
+    Tree<Key, Value>::COUNTER = 0;
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::INCREMENT_COUNTER() {
-    Tree<Key, Data>::COUNTER++;
+template<class Key, class Value>
+void Tree<Key, Value>::INCREMENT_COUNTER() {
+    Tree<Key, Value>::COUNTER++;
 }
 
-template<class Key, class Data>
-int Tree<Key, Data>::GET_COUNTER() {
-    return Tree<Key, Data>::COUNTER;
+template<class Key, class Value>
+int Tree<Key, Value>::GET_COUNTER() {
+    return Tree<Key, Value>::COUNTER;
 }
 
 // ################################################
 //                      Iterator
 // ################################################
 
-template<class Key, class Data>
-Tree<Key, Data>::Iterator::Iterator(Tree<Key, Data> *tree, Node *node) {
+template<class Key, class Value>
+Tree<Key, Value>::Iterator::Iterator(Tree<Key, Value> *tree, Node *node) {
     this->tree = tree;
     this->node = node;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::Iterator::operator++(int) {
+template<class Key, class Value>
+bool Tree<Key, Value>::Iterator::operator++(int) {
     if (!node)
         return false;
 
@@ -186,8 +192,8 @@ bool Tree<Key, Data>::Iterator::operator++(int) {
     return node;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::Iterator::operator--(int) {
+template<class Key, class Value>
+bool Tree<Key, Value>::Iterator::operator--(int) {
     if (!node)
         return false;
 
@@ -195,27 +201,27 @@ bool Tree<Key, Data>::Iterator::operator--(int) {
     return node;
 }
 
-template<class Key, class Data>
-Data &Tree<Key, Data>::Iterator::operator*() {
+template<class Key, class Value>
+Value &Tree<Key, Value>::Iterator::operator*() {
     if (!node)
         throw exception();
 
-    return node->data;
+    return node->value;
 }
 
 
-template<class Key, class Data>
-bool Tree<Key, Data>::Iterator::operator==(Iterator it) {
+template<class Key, class Value>
+bool Tree<Key, Value>::Iterator::operator==(Iterator it) {
     return node == it.node;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::Iterator::operator!=(Iterator it) {
+template<class Key, class Value>
+bool Tree<Key, Value>::Iterator::operator!=(Iterator it) {
     return node != it.node;
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::Iterator::getParent() {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::Iterator::getParent() {
     if (node == tree->root)
         return nullptr;
 
@@ -249,14 +255,14 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::Iterator::getParent() {
 //                      rIterator
 // ################################################
 
-template<class Key, class Data>
-Tree<Key, Data>::rIterator::rIterator(Tree<Key, Data> *tree, Node *node) {
+template<class Key, class Value>
+Tree<Key, Value>::rIterator::rIterator(Tree<Key, Value> *tree, Node *node) {
     this->tree = tree;
     this->node = node;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::rIterator::operator++(int) {
+template<class Key, class Value>
+bool Tree<Key, Value>::rIterator::operator++(int) {
     if (!node)
         return false;
 
@@ -264,8 +270,8 @@ bool Tree<Key, Data>::rIterator::operator++(int) {
     return this->node;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::rIterator::operator--(int) {
+template<class Key, class Value>
+bool Tree<Key, Value>::rIterator::operator--(int) {
     if (!node)
         return false;
 
@@ -273,26 +279,26 @@ bool Tree<Key, Data>::rIterator::operator--(int) {
     return node;
 }
 
-template<class Key, class Data>
-Data &Tree<Key, Data>::rIterator::operator*() {
+template<class Key, class Value>
+Value &Tree<Key, Value>::rIterator::operator*() {
     if (!node)
         throw exception();
 
-    return node->data;
+    return node->value;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::rIterator::operator==(rIterator it) {
+template<class Key, class Value>
+bool Tree<Key, Value>::rIterator::operator==(rIterator it) {
     return node == it.node;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::rIterator::operator!=(rIterator it) {
+template<class Key, class Value>
+bool Tree<Key, Value>::rIterator::operator!=(rIterator it) {
     return node != it.node;
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::rIterator::getParent() {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::rIterator::getParent() {
     if (node == tree->root)
         return nullptr;
 
@@ -326,20 +332,20 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::rIterator::getParent() {
 // ################################################
 
 
-template<class Key, class Data>
-Tree<Key, Data>::Tree() {
+template<class Key, class Value>
+Tree<Key, Value>::Tree() {
     init();
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::init() {
+template<class Key, class Value>
+void Tree<Key, Value>::init() {
     this->root = nullptr;
     this->size = 0;
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::copy(const Node *node) {
-    insert(node->key, node->data);
+template<class Key, class Value>
+void Tree<Key, Value>::copy(const Node *node) {
+    insert(node->key, node->value);
     if (node->left) {
         copy(node->left);
     }
@@ -348,20 +354,20 @@ void Tree<Key, Data>::copy(const Node *node) {
     }
 }
 
-template<class Key, class Data>
-Tree<Key, Data>::Tree(const Tree<Key, Data> &tree) {
+template<class Key, class Value>
+Tree<Key, Value>::Tree(const Tree<Key, Value> &tree) {
     init();
     copy(tree.root);
 }
 
-template<class Key, class Data>
-Tree<Key, Data>::~Tree() {
+template<class Key, class Value>
+Tree<Key, Value>::~Tree() {
     if (!empty())
         clear();
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::clear(Node *node) {
+template<class Key, class Value>
+void Tree<Key, Value>::clear(Node *node) {
     if (node) {
         clear(node->left);
         clear(node->right);
@@ -370,22 +376,22 @@ void Tree<Key, Data>::clear(Node *node) {
     }
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::clear() {
+template<class Key, class Value>
+void Tree<Key, Value>::clear() {
     clear(root);
     root = nullptr;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::insert(Key key, Data data) {
+template<class Key, class Value>
+bool Tree<Key, Value>::insert(Key key, Value value) {
     if (!root) {
-        root = new Node(key, data);
+        root = new Node(key, value);
     } else {
         Node *node = root;
         Node *nodeBefore = nullptr;
         while (node) {
             nodeBefore = node;
-            Tree<Key, Data>::INCREMENT_COUNTER();
+            Tree<Key, Value>::INCREMENT_COUNTER();
             if (key < node->key) {
                 node = node->left;
             } else if (key > node->key) {
@@ -394,7 +400,7 @@ bool Tree<Key, Data>::insert(Key key, Data data) {
                 return false;
             }
         }
-        node = new Node(key, data);
+        node = new Node(key, value);
         if (key < nodeBefore->key) {
             nodeBefore->left = node;
         } else {
@@ -405,10 +411,10 @@ bool Tree<Key, Data>::insert(Key key, Data data) {
     return true;
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::traverse(Node *node) {
+template<class Key, class Value>
+void Tree<Key, Value>::traverse(Node *node) {
     if (node) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         traverse(node->left);
         Console::print(node->key);
         Console::print(" ");
@@ -416,19 +422,19 @@ void Tree<Key, Data>::traverse(Node *node) {
     }
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::traverse() {
+template<class Key, class Value>
+void Tree<Key, Value>::traverse() {
     traverse(root);
     Console::println();
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::print() {
+template<class Key, class Value>
+void Tree<Key, Value>::print() {
     print(root, 0);
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::print(Node *node, int lvl) {
+template<class Key, class Value>
+void Tree<Key, Value>::print(Node *node, int lvl) {
     if (node) {
         print(node->right, lvl + 1);
         for (int i = 0; i < lvl; ++i) {
@@ -436,7 +442,7 @@ void Tree<Key, Data>::print(Node *node, int lvl) {
         }
         Console::print(node->key, static_cast<COLORS>(lvl % 8)); // TODO: auto countering of COLORS length
         Console::print("(", static_cast<COLORS>(lvl % 8));
-        Console::print(node->data, static_cast<COLORS>(lvl % 8));
+        Console::print(node->value, static_cast<COLORS>(lvl % 8));
         Console::println(")", static_cast<COLORS>(lvl % 8));
         print(node->left, lvl + 1);
     } else {
@@ -447,22 +453,22 @@ void Tree<Key, Data>::print(Node *node, int lvl) {
     }
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::empty() {
+template<class Key, class Value>
+bool Tree<Key, Value>::empty() {
     return this->size == 0;
 }
 
-template<class Key, class Data>
-int Tree<Key, Data>::getSize() {
+template<class Key, class Value>
+int Tree<Key, Value>::getSize() {
     return size;
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeByKey(Key key) {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::getNodeByKey(Key key) {
     Node *node = root;
 
     while (node && key != node->key) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         if (key < node->key)
             node = node->left;
         else
@@ -475,18 +481,18 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeByKey(Key key) {
     return node;
 }
 
-template<class Key, class Data>
-Data Tree<Key, Data>::find(Key key) {
-    return getNodeByKey(key)->data;
+template<class Key, class Value>
+Value Tree<Key, Value>::find(Key key) {
+    return getNodeByKey(key)->value;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::remove(Key key) {
+template<class Key, class Value>
+bool Tree<Key, Value>::remove(Key key) {
     Node *cur = root;
     Node *prev = nullptr;
 
     while (cur && key != cur->key) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         prev = cur;
         if (key < cur->key)
             cur = cur->left;
@@ -503,14 +509,14 @@ bool Tree<Key, Data>::remove(Key key) {
     if (!cur->left && !cur->right) {
         x = nullptr;
     } else if (!cur->left) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         x = cur->right;
     } else if (!cur->right) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         x = cur->left;
     } else {
         prev = cur;
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
 
         y = cur->right;
         while (y->left) {
@@ -518,7 +524,7 @@ bool Tree<Key, Data>::remove(Key key) {
             y = y->left;
         }
         cur->key = y->key;
-        cur->data = y->data;
+        cur->value = y->value;
         x = y->right;
         cur = y;
     }
@@ -536,28 +542,28 @@ bool Tree<Key, Data>::remove(Key key) {
     return true;
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Iterator Tree<Key, Data>::begin() {
-    return Tree<Key, Data>::Iterator(this, getNodeWithMinimalKey());
+template<class Key, class Value>
+typename Tree<Key, Value>::Iterator Tree<Key, Value>::begin() {
+    return Tree<Key, Value>::Iterator(this, getNodeWithMinimalKey());
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Iterator Tree<Key, Data>::end() {
-    return Tree<Key, Data>::Iterator(this);
+template<class Key, class Value>
+typename Tree<Key, Value>::Iterator Tree<Key, Value>::end() {
+    return Tree<Key, Value>::Iterator(this);
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::rIterator Tree<Key, Data>::rbegin() {
-    return Tree<Key, Data>::rIterator(this, getNodeWithMaximalKey());
+template<class Key, class Value>
+typename Tree<Key, Value>::rIterator Tree<Key, Value>::rbegin() {
+    return Tree<Key, Value>::rIterator(this, getNodeWithMaximalKey());
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::rIterator Tree<Key, Data>::rend() {
-    return Tree<Key, Data>::rIterator(this);
+template<class Key, class Value>
+typename Tree<Key, Value>::rIterator Tree<Key, Value>::rend() {
+    return Tree<Key, Value>::rIterator(this);
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::getParent(Node *node) {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::getParent(Node *node) {
     if (node == root)
         return nullptr;
 
@@ -567,15 +573,15 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getParent(Node *node) {
     Node *next = nullptr;
     Node *current = root;
     if (node->key > current->key) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         next = current->right;
     }
     if (node->key < current->key) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         next = current->left;
     }
     while (next != node) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         current = next;
         if (node->key > current->key) {
             next = current->right;
@@ -589,24 +595,24 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getParent(Node *node) {
     return current;
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::max(Node *node) {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::max(Node *node) {
     if (!node)
         return nullptr;
 
     while (node->right) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         node = node->right;
     }
     return node;
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::biggerParent(Node *current, Node *target) {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::biggerParent(Node *current, Node *target) {
     if (current == target)
         return nullptr;
 
-    Tree<Key, Data>::INCREMENT_COUNTER();
+    Tree<Key, Value>::INCREMENT_COUNTER();
     if (target->key > current->key) {
         Node *returnNode = biggerParent(current->right, target);
         if (!returnNode)
@@ -618,12 +624,12 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::biggerParent(Node *current, Nod
     }
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::lessParent(Node *current, Node *target) {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::lessParent(Node *current, Node *target) {
     if (current == target)
         return nullptr;
 
-    Tree<Key, Data>::INCREMENT_COUNTER();
+    Tree<Key, Value>::INCREMENT_COUNTER();
     if (target->key < current->key) {
         Node *returnNode = lessParent(current->left, target);
         if (!returnNode)
@@ -635,8 +641,8 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::lessParent(Node *current, Node 
     }
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::getPrev(Node *target) {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::getPrev(Node *target) {
     if (empty() || !target)
         throw exception();
 
@@ -647,8 +653,8 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getPrev(Node *target) {
     }
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::getNext(Node *target) {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::getNext(Node *target) {
     if (empty() || !target)
         throw exception();
 
@@ -659,66 +665,71 @@ typename Tree<Key, Data>::Node *Tree<Key, Data>::getNext(Node *target) {
     }
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::min(Node *node) {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::min(Node *node) {
     if (!node)
         return nullptr;
 
     while (node->left) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         node = node->left;
     }
     return node;
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMinimalKey() {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::getNodeWithMinimalKey() {
     Node *node = root;
 
     while (node && node->left) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         node = node->left;
     }
     return node;
 }
 
-template<class Key, class Data>
-typename Tree<Key, Data>::Node *Tree<Key, Data>::getNodeWithMaximalKey() {
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::getNodeWithMaximalKey() {
     Node *node = root;
     while (node && node->right) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         node = node->right;
     }
     return node;
 }
 
-template<class Key, class Data>
-bool Tree<Key, Data>::set(Key key, Data data) {
+template<class Key, class Value>
+bool Tree<Key, Value>::set(Key key, Value value) {
     try {
         Node *node = getNodeByKey(key);
-        node->data = data;
+        node->value = value;
     } catch (const exception &ex) {
         return false;
     }
     return true;
 }
 
-template<class Key, class Data>
-int Tree<Key, Data>::getExternalWayLength() {
+template<class Key, class Value>
+int Tree<Key, Value>::getExternalWayLength() {
     int length = 0;
     getExternalWayLength(root, length);
     return length;
 }
 
-template<class Key, class Data>
-void Tree<Key, Data>::getExternalWayLength(Node *node, int &length) {
+template<class Key, class Value>
+void Tree<Key, Value>::getExternalWayLength(Node *node, int &length) {
     if (node) {
-        Tree<Key, Data>::INCREMENT_COUNTER();
+        Tree<Key, Value>::INCREMENT_COUNTER();
         getExternalWayLength(node->left, length);
         getExternalWayLength(node->right, length);
     } else {
         length++;
     }
+}
+
+template<class Key, class Value>
+typename Tree<Key, Value>::Node *Tree<Key, Value>::getRoot() {
+    return root;
 }
 
 #endif //LAB2_3_TREE_H

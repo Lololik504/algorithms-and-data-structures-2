@@ -72,6 +72,8 @@ const char *Console::PARSE_COLOR(COLORS color) {
             return "\e[1;36m";
         case COLORS::WHITE:
             return "\e[1;37m";
+        case COLORS::BLACK:
+            return "\e[4;30m";
         default:
             return "";
     };

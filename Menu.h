@@ -6,15 +6,15 @@
 #ifndef LAB1_MENU_H
 #define LAB1_MENU_H
 
-template<class Key = int, class Data = int>
+template<class Key = int, class Value = int>
 class Menu {
 public:
-    static void startMenu(Tree<Key, Data> &tree) {
+    static void startMenu(Tree<Key, Value> &tree) {
         auto it = tree.begin();
         auto rit = tree.rbegin();
         bool running = true;
         int action = 0;
-        int key, data;
+        int key, value;
         while (running) {
             Console::clear();
             Menu::printActionsList();
@@ -43,49 +43,49 @@ public:
                         Console::println(tree.empty());
                         break;
                     }
-                    case 4: //get data by key
+                    case 4: //get value by key
                     {
                         Console::println("Enter key: ");
                         cin >> key;
                         try {
-                            Tree<Key, Data>::NULLIFY_COUNTER();
+                            Tree<Key, Value>::NULLIFY_COUNTER();
                             Console::success(tree.find(key));
                         } catch (const exception &ex) {
                             Console::error("ERROR");
                         }
                         break;
                     }
-                    case 5: //set data by key
+                    case 5: //set value by key
                     {
                         Console::print("Enter key: ");
                         cin >> key;
                         Console::print("Enter value: ");
-                        cin >> data;
-                        Tree<Key, Data>::NULLIFY_COUNTER();
-                        tree.set(key, data) ? Console::success("SET") : Console::error("KEY ERROR");
+                        cin >> value;
+                        Tree<Key, Value>::NULLIFY_COUNTER();
+                        tree.set(key, value) ? Console::success("SET") : Console::error("KEY ERROR");
                         break;
                     }
-                    case 6: //insert data with key
+                    case 6: //insert value with key
                     {
                         Console::print("Enter key: ");
                         cin >> key;
                         Console::print("Enter value: ");
-                        cin >> data;
-                        Tree<Key, Data>::NULLIFY_COUNTER();
-                        tree.insert(key, data) ? Console::success("INSERTED") : Console::error("KEY ALREADY EXISTS");
+                        cin >> value;
+                        Tree<Key, Value>::NULLIFY_COUNTER();
+                        tree.insert(key, value) ? Console::success("INSERTED") : Console::error("KEY ALREADY EXISTS");
                         break;
                     }
-                    case 7: //remove data by key
+                    case 7: //remove value by key
                     {
                         Console::println("Enter key: ");
                         cin >> key;
-                        Tree<Key, Data>::NULLIFY_COUNTER();
+                        Tree<Key, Value>::NULLIFY_COUNTER();
                         tree.remove(key) ? Console::success("REMOVED") : Console::error("KEY ERROR");
                         break;
                     }
                     case 8: //traverse L-T-R
                     {
-                        Tree<Key, Data>::NULLIFY_COUNTER();
+                        Tree<Key, Value>::NULLIFY_COUNTER();
                         tree.traverse();
                         break;
                     }
@@ -96,37 +96,37 @@ public:
                     }
                     case 10: //external way length
                     {
-                        Tree<Key, Data>::NULLIFY_COUNTER();
+                        Tree<Key, Value>::NULLIFY_COUNTER();
                         Console::println(tree.getExternalWayLength());
                         break;
                     }
                     case 11: //forward iterator to min key
                     {
                         it = tree.begin();
-                        Menu<Data>::iteratorMenu(tree, it);
+                        Menu<Key, Value>::iteratorMenu(tree, it);
                         break;
                     }
                     case 12: {
                         it = tree.end();
-                        Menu<Data>::iteratorMenu(tree, it);
+                        Menu<Key, Value>::iteratorMenu(tree, it);
                         break;
                     }
                     case 13: {
-                        Menu<Data>::iteratorMenu(tree, it);
+                        Menu<Key, Value>::iteratorMenu(tree, it);
                         break;
                     }
                     case 14: {
                         rit = tree.rbegin();
-                        Menu<Data>::rIteratorMenu(tree, rit);
+                        Menu<Key, Value>::rIteratorMenu(tree, rit);
                         break;
                     }
                     case 15: {
                         rit = tree.rend();
-                        Menu<Data>::rIteratorMenu(tree, rit);
+                        Menu<Key, Value>::rIteratorMenu(tree, rit);
                         break;
                     }
                     case 16: {
-                        Menu<Data>::rIteratorMenu(tree, rit);
+                        Menu<Key, Value>::rIteratorMenu(tree, rit);
                         break;
                     }
                     case 17: {
@@ -150,7 +150,7 @@ public:
                         break;
                     }
                     case 22: {
-                        Console::println(Tree<Key, Data>::GET_COUNTER());
+                        Console::println(Tree<Key, Value>::GET_COUNTER());
                         break;
                     }
                     default: {
@@ -197,7 +197,7 @@ private:
         Console::println("╚══════╩═══════════════════════╝");
     }
 
-    static void iteratorMenu(Tree<Data> &tree, typename Tree<Data>::Iterator &it) {
+    static void iteratorMenu(Tree<Key, Value> &tree, typename Tree<Key, Value>::Iterator &it) {
         bool running = true;
         int action = 0;
         while (running) {
@@ -258,7 +258,7 @@ private:
         }
     }
 
-    static void rIteratorMenu(Tree<Data> &tree, typename Tree<Data>::rIterator &it) {
+    static void rIteratorMenu(Tree<Key, Value> &tree, typename Tree<Key, Value>::rIterator &it) {
         bool running = true;
         int action = 0;
         while (running) {
